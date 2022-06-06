@@ -5,17 +5,18 @@
  */
 package charity.app;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author PHUTRAN
  */
-public class CharityManagementSystem {
+public class CharityManagementSystem extends JFrame{
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.err.println("Hello world!");
+        new LoginForm();
     }
-    
 }
