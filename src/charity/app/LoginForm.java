@@ -119,11 +119,13 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageLogin.png"))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(241, 11, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 11, 11));
         jLabel1.setText("TỪ THIỆN");
         jLabel1.setMaximumSize(new java.awt.Dimension(60, 60));
         jLabel1.setPreferredSize(new java.awt.Dimension(60, 20));
 
+        usernameField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameFieldActionPerformed(evt);
@@ -133,6 +135,8 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel3.setText("Username:");
 
         jLabel4.setText("Password:");
+
+        passwordField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnLogin.setBackground(new java.awt.Color(16, 169, 218));
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
@@ -174,8 +178,8 @@ public class LoginForm extends javax.swing.JFrame {
                                 .addComponent(jLabel3)
                                 .addGap(32, 32, 32)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(30, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -238,7 +242,7 @@ public class LoginForm extends javax.swing.JFrame {
         RegisterForm registerForm = new RegisterForm();
         registerForm.setVisible(true);
         registerForm.pack();
-        registerForm.setLocationRelativeTo(null);
+        registerForm.setLocationRelativeTo(null);   
         registerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_cmdRegisterMouseClicked

@@ -127,11 +127,13 @@ public class RegisterForm extends javax.swing.JFrame {
         );
 
         jLabel1.setBackground(new java.awt.Color(241, 11, 11));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 11, 11));
         jLabel1.setText("TỪ THIỆN");
         jLabel1.setMaximumSize(new java.awt.Dimension(60, 60));
         jLabel1.setPreferredSize(new java.awt.Dimension(60, 20));
 
+        emailField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 emailFieldActionPerformed(evt);
@@ -142,6 +144,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         jLabel4.setText("Họ và tên:");
 
+        fullNameField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         fullNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 fullNameFieldActionPerformed(evt);
@@ -159,6 +162,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         jLabel2.setText("Username:");
 
+        usernameField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         usernameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameFieldActionPerformed(evt);
@@ -179,6 +183,8 @@ public class RegisterForm extends javax.swing.JFrame {
         );
 
         jLabel5.setText("Mật khẩu:");
+
+        jPasswordField1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
