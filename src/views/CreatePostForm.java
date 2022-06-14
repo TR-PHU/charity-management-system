@@ -5,9 +5,36 @@
  */
 package views;
 
+import connect_db.MyConnection;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import models.Post;
+import models.TimeLine;
+import models.User;
 
 /**
  *
@@ -15,12 +42,22 @@ import javax.swing.ImageIcon;
  */
 public class CreatePostForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CreatePostForm
-     */
-    public CreatePostForm() {
+    String imagePath = null;
+    ArrayList<TimeLine> listTimeLine = new ArrayList<>();
+    DefaultTableModel model;
+    private static User user;
+    
+    public CreatePostForm(int userId) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Đăng bài");
+        
+        ButtonGroup btnGroup = new ButtonGroup();
+        btnGroup.add(radioBtnDonation);
+        btnGroup.add(radioBtnVolunteer);
+        
         loadImage();
+        loadInfoUser(userId);
     }
 
     /**
@@ -32,6 +69,12 @@ public class CreatePostForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelCanlendar = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        descriptionTimeLine = new javax.swing.JTextArea();
+        chooseCalendar = new com.toedter.calendar.JCalendar();
         jPanel1 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -41,6 +84,63 @@ public class CreatePostForm extends javax.swing.JFrame {
         lableImage = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        titleField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        radioBtnDonation = new javax.swing.JRadioButton();
+        radioBtnVolunteer = new javax.swing.JRadioButton();
+        jLabel7 = new javax.swing.JLabel();
+        btnSelectImage = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        raiseField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        descriptionText = new javax.swing.JTextArea();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableTimeLine = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        btnAddTimeLine = new javax.swing.JButton();
+        lableImagePath = new javax.swing.JLabel();
+
+        jLabel12.setFont(new java.awt.Font("SansSerif", 1, 13)); // NOI18N
+        jLabel12.setText("Mời bạn chọn ngày sự kiện");
+
+        jLabel13.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel13.setText("Mô tả thời gian sự kiện");
+
+        descriptionTimeLine.setColumns(20);
+        descriptionTimeLine.setRows(5);
+        jScrollPane3.setViewportView(descriptionTimeLine);
+
+        javax.swing.GroupLayout panelCanlendarLayout = new javax.swing.GroupLayout(panelCanlendar);
+        panelCanlendar.setLayout(panelCanlendarLayout);
+        panelCanlendarLayout.setHorizontalGroup(
+            panelCanlendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(panelCanlendarLayout.createSequentialGroup()
+                .addGroup(panelCanlendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelCanlendarLayout.createSequentialGroup()
+                        .addGap(98, 98, 98)
+                        .addComponent(jLabel12))
+                    .addGroup(panelCanlendarLayout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(jLabel13)))
+                .addContainerGap(71, Short.MAX_VALUE))
+            .addComponent(chooseCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panelCanlendarLayout.setVerticalGroup(
+            panelCanlendarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelCanlendarLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jLabel12)
+                .addGap(20, 20, 20)
+                .addComponent(chooseCalendar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(jLabel13)
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
@@ -93,6 +193,88 @@ public class CreatePostForm extends javax.swing.JFrame {
 
         jLabel5.setText("Tựa bài:");
 
+        titleField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel6.setText("Chuyên mục:");
+
+        radioBtnDonation.setText("Kêu gọi từ thiện");
+
+        radioBtnVolunteer.setText("Tình nguyện viên");
+
+        jLabel7.setText("Hình ảnh:");
+
+        btnSelectImage.setText("Choose image");
+        btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectImageActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Số lượng cần huy động:");
+
+        raiseField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        raiseField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                raiseFieldKeyTyped(evt);
+            }
+        });
+
+        jLabel9.setText("Mô tả chung:");
+
+        descriptionText.setColumns(20);
+        descriptionText.setRows(5);
+        jScrollPane1.setViewportView(descriptionText);
+
+        jLabel10.setText("Các cột mốc thời gian:");
+
+        tableTimeLine.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Thời gian", "Mô tả"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tableTimeLine);
+        if (tableTimeLine.getColumnModel().getColumnCount() > 0) {
+            tableTimeLine.getColumnModel().getColumn(0).setResizable(false);
+            tableTimeLine.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        jButton1.setBackground(new java.awt.Color(235, 35, 35));
+        jButton1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("ĐĂNG BÀI");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnAddTimeLine.setText("Thêm mốc thời gian");
+        btnAddTimeLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddTimeLineActionPerformed(evt);
+            }
+        });
+
+        lableImagePath.setText("Chưa chọn ảnh");
+
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
         panelMainLayout.setHorizontalGroup(
@@ -102,24 +284,87 @@ public class CreatePostForm extends javax.swing.JFrame {
                 .addComponent(lableImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel4))
-                    .addGroup(panelMainLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel5)))
-                .addContainerGap(100, Short.MAX_VALUE))
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAddTimeLine)
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel10)
+                                .addGroup(panelMainLayout.createSequentialGroup()
+                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                                    .addGap(20, 20, 20)
+                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(panelMainLayout.createSequentialGroup()
+                                            .addComponent(radioBtnDonation, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(12, 12, 12)
+                                            .addComponent(radioBtnVolunteer, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(panelMainLayout.createSequentialGroup()
+                                            .addComponent(btnSelectImage)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(lableImagePath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(titleField, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(panelMainLayout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(raiseField))
+                                .addGroup(panelMainLayout.createSequentialGroup()
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(20, 20, 20)
+                                    .addComponent(jScrollPane1))
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addContainerGap(30, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(112, 112, 112))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(159, 159, 159))))))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lableImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(titleField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel5))
-                    .addComponent(lableImage, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(86, Short.MAX_VALUE))
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(radioBtnDonation)
+                                .addComponent(radioBtnVolunteer)))
+                        .addGap(20, 20, 20)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(btnSelectImage)
+                            .addComponent(lableImagePath))
+                        .addGap(20, 20, 20)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(raiseField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel10)
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(btnAddTimeLine)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -139,6 +384,173 @@ public class CreatePostForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    public void loadInfoUser(int userId) { 
+        PreparedStatement st;
+        ResultSet rs;
+        String query = "select * from users where id=?";
+        
+        try {
+            st = MyConnection.getConnection().prepareStatement(query);
+            if(userId != 0) { 
+                st.setString(1, String.valueOf(userId));
+            }
+            rs = st.executeQuery();
+            
+            if(rs.next()) { 
+                userId = rs.getInt(1);
+                user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getBlob(7), rs.getInt(8));
+            } else { 
+                LoginForm loginForm = new LoginForm();
+                loginForm.setVisible(true);
+                loginForm.pack();
+                loginForm.setLocationRelativeTo(null);
+                loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.dispose();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
+        String path = null;
+        
+        JFileChooser chooser = new JFileChooser();
+        
+        chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        
+        // File extension
+        FileNameExtensionFilter extension = new FileNameExtensionFilter("*.images", "jpg","png","jpeg");
+        chooser.addChoosableFileFilter(extension);
+        
+        int result = chooser.showSaveDialog(null);
+        
+        // Check if user select an image
+        File selectedImage = chooser.getSelectedFile();
+        String fileName = selectedImage.getName();
+        if(fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".JPG") || fileName.endsWith(".PNG") || fileName.endsWith(".JPEG")) { 
+           if(result == JFileChooser.APPROVE_OPTION) { 
+            path = selectedImage.getAbsolutePath();
+            lableImagePath.setText("Đã chọn được ảnh");
+            imagePath = path;
+        }
+        } else { 
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng chỉ chọn ảnh");
+        }
+    }//GEN-LAST:event_btnSelectImageActionPerformed
+
+    private void btnAddTimeLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTimeLineActionPerformed
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        int result = JOptionPane.showConfirmDialog(null, panelCanlendar, 
+               "Chọn thời gian và nhập sự kiện diễn ra", JOptionPane.OK_CANCEL_OPTION);
+      if (result == JOptionPane.OK_OPTION) {
+        String date = sdf.format(chooseCalendar.getDate());
+        String description = this.descriptionTimeLine.getText();
+
+        TimeLine timeLine = new TimeLine(date, description);
+        listTimeLine.add(timeLine);
+        
+        model = (DefaultTableModel) tableTimeLine.getModel();
+        Object[] row = new Object[2];
+        row[0] = timeLine.getTakePlace();
+        row[1] = timeLine.getDescription();
+        model.addRow(row);
+
+        descriptionTimeLine.setText("");
+      }
+    }//GEN-LAST:event_btnAddTimeLineActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String title = titleField.getText();
+        double goalRaise = 0;
+        String overralDescription = descriptionText.getText();
+        String queryInsertPost = "insert into posts (title, image, raise_money, goal_money, raise_people, goal_people, description, user_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String queryInsertTimeLine = "insert into time_lines (take_place, description, has_done, pid) values (?, ?, ?, ?)";
+        String queryGetPostId = "select id from posts order by id desc limit 1";
+        
+        if (raiseField.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Số lượng cần huy động không được bỏ trống");
+        } else { 
+            goalRaise = Integer.valueOf(raiseField.getText());
+        }
+
+        
+        PreparedStatement ps;
+        Statement st;
+        ResultSet rsGetPostId;
+        
+        PreparedStatement psTimeLine;
+        try {
+            ps = MyConnection.getConnection().prepareStatement(queryInsertPost);
+            psTimeLine = MyConnection.getConnection().prepareStatement(queryInsertTimeLine);
+            st = MyConnection.getConnection().createStatement();
+            
+            rsGetPostId = st.executeQuery(queryGetPostId);
+            int postId = 1000;
+            if(rsGetPostId.next()) { 
+                postId = rsGetPostId.getInt(1) + 1;
+            } 
+            
+            ps.setString(1, title);
+            ps.setString(7, overralDescription);
+            ps.setInt(8, user.getId());
+            
+            if(!listTimeLine.isEmpty()) { 
+                    for (Iterator<TimeLine> iterator = listTimeLine.iterator(); iterator.hasNext();) {
+                    TimeLine timeLine = (TimeLine) iterator.next();
+                    psTimeLine.setString(1, timeLine.getTakePlace());
+                    psTimeLine.setString(2, timeLine.getDescription());
+                    psTimeLine.setInt(3, 0);
+                    psTimeLine.setInt(4, postId);
+                    psTimeLine.addBatch();
+                }
+            }
+            if(radioBtnDonation.isSelected()) { 
+                ps.setDouble(3, 0);
+                ps.setDouble(4, goalRaise);
+                ps.setNull(5, Types.NULL);
+                ps.setNull(6, Types.NULL);
+            } else { 
+                ps.setNull(3, Types.NULL);
+                ps.setNull(4, Types.NULL);
+                ps.setInt(5, 0);
+                ps.setInt(6, (int)goalRaise);
+            }
+            if(imagePath != null) { 
+                InputStream image;
+                try {
+                    image = new FileInputStream(new File(imagePath));
+                    ps.setBlob(2, image);
+                } catch (FileNotFoundException ex) {
+                        Logger.getLogger(CreatePostForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else { 
+                ps.setNull(2, Types.NULL);
+            }
+            int result = ps.executeUpdate();
+            if(result != 0 && listTimeLine.isEmpty()) { 
+                JOptionPane.showMessageDialog(null, "Tạo bài viết thành công", "Create Post Success", 2);
+            } else if(!listTimeLine.isEmpty()) { 
+                if(result != 0 && psTimeLine.executeBatch().length > 0) { 
+                     JOptionPane.showMessageDialog(null, "Tạo bài viết thành công", "Create Post Success", 2);
+                } else { 
+                    JOptionPane.showMessageDialog(null, "Tạo bài viết không thành công", "Create Post Failed", 2);
+                }
+            } else { 
+                JOptionPane.showMessageDialog(null, "Tạo bài viết không thành công", "Create Post Failed", 2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CreatePostForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                    
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void raiseFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_raiseFieldKeyTyped
+        // allow  only numbers
+        if(!Character.isDigit(evt.getKeyChar())) { 
+            evt.consume();
+        }
+    }//GEN-LAST:event_raiseFieldKeyTyped
 
     /**
      * @param args the command line arguments
@@ -180,20 +592,43 @@ public class CreatePostForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreatePostForm().setVisible(true);
+                new CreatePostForm(user.getId()).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddTimeLine;
+    private javax.swing.JButton btnSelectImage;
+    private com.toedter.calendar.JCalendar chooseCalendar;
+    private javax.swing.JTextArea descriptionText;
+    private javax.swing.JTextArea descriptionTimeLine;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lableImage;
+    private javax.swing.JLabel lableImagePath;
+    private javax.swing.JPanel panelCanlendar;
     private javax.swing.JPanel panelMain;
+    private javax.swing.JRadioButton radioBtnDonation;
+    private javax.swing.JRadioButton radioBtnVolunteer;
+    private javax.swing.JTextField raiseField;
+    private javax.swing.JTable tableTimeLine;
+    private javax.swing.JTextField titleField;
     // End of variables declaration//GEN-END:variables
 }
