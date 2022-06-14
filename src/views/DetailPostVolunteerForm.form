@@ -96,6 +96,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng k&#xfd;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVolunteerSignUpActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="panelDonation">
       <Properties>
@@ -189,6 +192,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="T&#xd4;I MU&#x1ed0;N &#x1ee6;NG H&#x1ed8;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDonationActionPerformed"/>
+      </Events>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -241,7 +247,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="labelLogin" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboBoxDirection" min="-2" pref="163" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <Component id="panelMain" alignment="1" max="32767" attributes="0"/>
@@ -253,9 +259,9 @@
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelLogo" alignment="3" pref="40" max="32767" attributes="0"/>
-                      <Component id="labelLogin" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxDirection" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   <Component id="panelMain" min="-2" max="-2" attributes="0"/>
@@ -268,11 +274,6 @@
         <Component class="javax.swing.JLabel" name="labelLogo">
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="labelLogin">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng nh&#x1ead;p"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
@@ -306,7 +307,7 @@
                           </Group>
                           <Component id="jScrollPane1" alignment="0" min="-2" pref="321" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="12" max="32767" attributes="0"/>
+                      <EmptySpace pref="30" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -409,6 +410,24 @@
             </Container>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JComboBox" name="comboBoxDirection">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Xem th&#xf4;ng tin t&#xe0;i kho&#x1ea3;n"/>
+                <StringItem index="1" value="Qu&#x1ea3;n l&#xfd; ho&#x1ea1;t &#x111;&#x1ed9;ng c&#x1ee7;a b&#x1ea1;n"/>
+                <StringItem index="2" value="&#x110;&#x103;ng b&#xe0;i"/>
+                <StringItem index="3" value="&#x110;&#x103;ng xu&#x1ea5;t"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="comboBoxDirectionActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

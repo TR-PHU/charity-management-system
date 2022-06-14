@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import models.Post;
 import models.TimeLine;
@@ -29,12 +30,14 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
      * Creates new form DetailPostForm
      */
     private static Post post;
-    private static int postId = 5;
+    private static int postId;
+    private static int userId;
     private static TimeLine timeLine;
     
-    public DetailPostVolunteerForm(int postId) {
+    public DetailPostVolunteerForm(int postId, int userId) {
         initComponents();
         this.postId = postId;
+        this.userId = userId;
         this.setLocationRelativeTo(null);
         
         loadLogo();
@@ -65,7 +68,6 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         btnDonation = new javax.swing.JButton();
         panelHeader = new javax.swing.JPanel();
         labelLogo = new javax.swing.JLabel();
-        labelLogin = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         panelMain = new javax.swing.JPanel();
@@ -75,6 +77,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         textDescField = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableTimeLine = new javax.swing.JTable();
+        comboBoxDirection = new javax.swing.JComboBox<>();
 
         panelVolunteer.setBackground(new java.awt.Color(239, 202, 72));
 
@@ -127,6 +130,11 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         btnVolunteerSignUp.setBackground(new java.awt.Color(235, 35, 35));
         btnVolunteerSignUp.setForeground(new java.awt.Color(255, 255, 255));
         btnVolunteerSignUp.setText("Đăng ký");
+        btnVolunteerSignUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolunteerSignUpActionPerformed(evt);
+            }
+        });
 
         panelDonation.setBackground(new java.awt.Color(239, 202, 72));
 
@@ -177,14 +185,17 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         btnDonation.setBackground(new java.awt.Color(235, 35, 35));
         btnDonation.setForeground(new java.awt.Color(255, 255, 255));
         btnDonation.setText("TÔI MUỐN ỦNG HỘ");
+        btnDonation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDonationActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panelHeader.setBackground(new java.awt.Color(239, 202, 72));
 
         labelLogo.setText("jLabel1");
-
-        labelLogin.setText("Đăng nhập");
 
         jLabel1.setText("Về chúng tôi");
 
@@ -248,7 +259,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                         .addComponent(labelTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,6 +277,13 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                 .addGap(183, 183, 183))
         );
 
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem thông tin tài khoản", "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
+        comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDirectionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
         panelHeader.setLayout(panelHeaderLayout);
         panelHeaderLayout.setHorizontalGroup(
@@ -278,7 +296,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(labelLogin)
+                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
             .addComponent(panelMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -288,9 +306,9 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                    .addComponent(labelLogin)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -310,6 +328,55 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnVolunteerSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolunteerSignUpActionPerformed
+        
+        VolunteerSignUpForm volunteerSignUpForm = new VolunteerSignUpForm(post.getId(), userId);
+        volunteerSignUpForm.setVisible(true);
+        volunteerSignUpForm.pack();
+        volunteerSignUpForm.setLocationRelativeTo(null);
+        volunteerSignUpForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_btnVolunteerSignUpActionPerformed
+
+    private void btnDonationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonationActionPerformed
+        DonationForm donationForm = new DonationForm(post.getId(), userId);
+        donationForm.setVisible(true);
+        donationForm.pack();
+        donationForm.setLocationRelativeTo(null);
+        donationForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_btnDonationActionPerformed
+
+    private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
+        int index = comboBoxDirection.getSelectedIndex();
+
+        if(index == 0) { 
+            ProfileForm profileForm = new ProfileForm(userId, "");
+            profileForm.setVisible(true);
+            profileForm.pack();
+            profileForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 1) { 
+            ManageUserPost manageUserPost = new ManageUserPost(userId);
+            manageUserPost.setVisible(true);
+            manageUserPost.pack();
+            manageUserPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 2 ) { 
+            CreatePost createPostForm = new CreatePost(userId);
+            createPostForm.setVisible(true);
+            createPostForm.pack();
+            createPostForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            loginForm.pack();
+            loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -323,7 +390,8 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         ImageIcon imageIcon = new ImageIcon(newImage);
         labelLogo.setIcon(imageIcon);
     }
-    public void loadInfoPost(int postId) { 
+    public void loadInfoPost(int postId) {
+        System.out.println(postId);
         PreparedStatement ps;
         ResultSet rs;
         String query = "select * from posts " +
@@ -428,11 +496,17 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DetailPostVolunteerForm(postId).setVisible(true);
+                new DetailPostVolunteerForm(postId,userId).setVisible(true);
             }
         });
     }
@@ -440,6 +514,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDonation;
     private javax.swing.JButton btnVolunteerSignUp;
+    private javax.swing.JComboBox<String> comboBoxDirection;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -451,7 +526,6 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
     private javax.swing.JLabel labelGoalMoney;
     private javax.swing.JLabel labelGoalPeople;
     private javax.swing.JLabel labelImagePost;
-    private javax.swing.JLabel labelLogin;
     private javax.swing.JLabel labelLogo;
     private javax.swing.JLabel labelRaiseMoney;
     private javax.swing.JLabel labelRaisePeople;

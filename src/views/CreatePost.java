@@ -40,14 +40,14 @@ import models.User;
  *
  * @author PHUTRAN
  */
-public class CreatePostForm extends javax.swing.JFrame {
+public class CreatePost extends javax.swing.JFrame {
 
     String imagePath = null;
     ArrayList<TimeLine> listTimeLine = new ArrayList<>();
     DefaultTableModel model;
     private static User user;
     
-    public CreatePostForm(int userId) {
+    public CreatePost(int userId) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Đăng bài");
@@ -77,9 +77,9 @@ public class CreatePostForm extends javax.swing.JFrame {
         chooseCalendar = new com.toedter.calendar.JCalendar();
         jPanel1 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        comboBoxDirection = new javax.swing.JComboBox<>();
         panelMain = new javax.swing.JPanel();
         lableImage = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -150,11 +150,21 @@ public class CreatePostForm extends javax.swing.JFrame {
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
         jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel1.setText("Tài khoản");
-
         jLabel2.setText("Về chúng tôi");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setText("Trang chủ");
+
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem thông tin tài khoản", "Quản lý hoạt động của bạn", "Đăng xuất" }));
+        comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDirectionActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,21 +175,21 @@ public class CreatePostForm extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(20, 20, 20)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -447,7 +457,7 @@ public class CreatePostForm extends javax.swing.JFrame {
         String date = sdf.format(chooseCalendar.getDate());
         String description = this.descriptionTimeLine.getText();
 
-        TimeLine timeLine = new TimeLine(date, description);
+        TimeLine timeLine = new TimeLine(0, date, description, 0);
         listTimeLine.add(timeLine);
         
         model = (DefaultTableModel) tableTimeLine.getModel();
@@ -486,7 +496,7 @@ public class CreatePostForm extends javax.swing.JFrame {
             st = MyConnection.getConnection().createStatement();
             
             rsGetPostId = st.executeQuery(queryGetPostId);
-            int postId = 1000;
+            int postId = -1;
             if(rsGetPostId.next()) { 
                 postId = rsGetPostId.getInt(1) + 1;
             } 
@@ -522,7 +532,7 @@ public class CreatePostForm extends javax.swing.JFrame {
                     image = new FileInputStream(new File(imagePath));
                     ps.setBlob(2, image);
                 } catch (FileNotFoundException ex) {
-                        Logger.getLogger(CreatePostForm.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(CreatePost.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else { 
                 ps.setNull(2, Types.NULL);
@@ -530,9 +540,21 @@ public class CreatePostForm extends javax.swing.JFrame {
             int result = ps.executeUpdate();
             if(result != 0 && listTimeLine.isEmpty()) { 
                 JOptionPane.showMessageDialog(null, "Tạo bài viết thành công", "Create Post Success", 2);
+                DetailPostVolunteerForm detailPostVolunteerForm = new DetailPostVolunteerForm(postId, user.getId());
+                detailPostVolunteerForm.setVisible(true);
+                detailPostVolunteerForm.pack();
+                detailPostVolunteerForm.setLocationRelativeTo(null);
+                detailPostVolunteerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                this.dispose();
             } else if(!listTimeLine.isEmpty()) { 
                 if(result != 0 && psTimeLine.executeBatch().length > 0) { 
-                     JOptionPane.showMessageDialog(null, "Tạo bài viết thành công", "Create Post Success", 2);
+                    JOptionPane.showMessageDialog(null, "Tạo bài viết thành công", "Create Post Success", 2);
+                    DetailPostVolunteerForm detailPostVolunteerForm = new DetailPostVolunteerForm(postId, user.getId());
+                    detailPostVolunteerForm.setVisible(true);
+                    detailPostVolunteerForm.pack();
+                    detailPostVolunteerForm.setLocationRelativeTo(null);
+                    detailPostVolunteerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    this.dispose();
                 } else { 
                     JOptionPane.showMessageDialog(null, "Tạo bài viết không thành công", "Create Post Failed", 2);
                 }
@@ -540,7 +562,7 @@ public class CreatePostForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Tạo bài viết không thành công", "Create Post Failed", 2);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CreatePostForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CreatePost.class.getName()).log(Level.SEVERE, null, ex);
         }
                     
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -551,6 +573,39 @@ public class CreatePostForm extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_raiseFieldKeyTyped
+
+    private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
+        int index = comboBoxDirection.getSelectedIndex();
+
+        if(index == 0) { 
+            ProfileForm profileForm = new ProfileForm(user.getId(), "");
+            profileForm.setVisible(true);
+            profileForm.pack();
+            profileForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 1) { 
+            ManageUserPost manageUserPost = new ManageUserPost(user.getId());
+            manageUserPost.setVisible(true);
+            manageUserPost.pack();
+            manageUserPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            loginForm.pack();
+            loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        AboutForm aboutForm = new AboutForm(user.getId());
+        aboutForm.setVisible(true);
+        aboutForm.setLocationRelativeTo(null);
+        aboutForm.pack();
+        aboutForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -579,20 +634,21 @@ public class CreatePostForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreatePostForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreatePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreatePostForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreatePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreatePostForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreatePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreatePostForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CreatePost.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreatePostForm(user.getId()).setVisible(true);
+                new CreatePost(user.getId()).setVisible(true);
             }
         });
     }
@@ -601,10 +657,10 @@ public class CreatePostForm extends javax.swing.JFrame {
     private javax.swing.JButton btnAddTimeLine;
     private javax.swing.JButton btnSelectImage;
     private com.toedter.calendar.JCalendar chooseCalendar;
+    private javax.swing.JComboBox<String> comboBoxDirection;
     private javax.swing.JTextArea descriptionText;
     private javax.swing.JTextArea descriptionTimeLine;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

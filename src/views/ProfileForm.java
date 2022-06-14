@@ -47,8 +47,8 @@ public class ProfileForm extends javax.swing.JFrame {
     DefaultTableModel tableModelDonation;
     DefaultTableModel tableModelVolunteer;
     
-    private static  int userId = 1;    
-    private static  String username = "phudz";
+    private static  int userId;    
+    private static  String username = "";
     
     public ProfileForm(int userId, String username) {
         this.userId = userId;
@@ -78,7 +78,7 @@ public class ProfileForm extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         lableHome1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        lableProfile = new javax.swing.JLabel();
+        comboBoxDirection = new javax.swing.JComboBox<>();
         panelMain = new javax.swing.JPanel();
         imageLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -126,11 +126,10 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
-        lableProfile.setText("Đăng bài");
-        lableProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lableProfile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lableProfileMouseClicked(evt);
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
+        comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDirectionActionPerformed(evt);
             }
         });
 
@@ -146,7 +145,7 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(lableProfile)
+                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(80, 80, 80))
         );
         panelHeaderLayout.setVerticalGroup(
@@ -159,8 +158,8 @@ public class ProfileForm extends javax.swing.JFrame {
                         .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lableHome1)
                             .addComponent(jLabel7)
-                            .addComponent(lableProfile))
-                        .addGap(19, 19, 19))))
+                            .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16))))
         );
 
         panelMain.setBackground(new java.awt.Color(239, 202, 72));
@@ -182,6 +181,9 @@ public class ProfileForm extends javax.swing.JFrame {
         usernameField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         usernameField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usernameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                usernameFieldFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 usernameFieldFocusLost(evt);
             }
@@ -647,6 +649,7 @@ public class ProfileForm extends javax.swing.JFrame {
     }
     private void btnSaveUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveUsernameActionPerformed
         String oldUserName = user.getUsername();
+        System.out.println(oldUserName);
         String username = usernameField.getText();
 
         if(username.trim().equals("")) {
@@ -808,15 +811,6 @@ public class ProfileForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboxTitleActionPerformed
 
-    private void lableProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lableProfileMouseClicked
-        CreatePostForm createPostForm = new CreatePostForm(user.getId());
-        createPostForm.setVisible(true);
-        createPostForm.pack();
-        createPostForm.setLocationRelativeTo(null);
-        createPostForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_lableProfileMouseClicked
-
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel7MouseClicked
@@ -873,6 +867,35 @@ public class ProfileForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Vui lòng chỉ chọn ảnh");
         }
     }//GEN-LAST:event_imageLabelMouseClicked
+
+    private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
+        int index = comboBoxDirection.getSelectedIndex();
+
+        if(index == 0) { 
+            ManageUserPost manageUserPost = new ManageUserPost(user.getId());
+            manageUserPost.setVisible(true);
+            manageUserPost.pack();
+            manageUserPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 1) { 
+            CreatePost createPostForm = new CreatePost(user.getId());
+            createPostForm.setVisible(true);
+            createPostForm.pack();
+            createPostForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            loginForm.pack();
+            loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
+    private void usernameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFieldFocusGained
+        btnSaveUsername.setVisible(true);
+        usernameField.setBackground(Color.WHITE);
+    }//GEN-LAST:event_usernameFieldFocusGained
     public PostVolunteer findPostVolunteers(ArrayList<PostVolunteer> listVolunteer,String title) { 
         for (PostVolunteer postVolunteer : listVolunteer) {
             if(postVolunteer.getTitle().equals(title)) { 
@@ -941,6 +964,12 @@ public class ProfileForm extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -953,6 +982,7 @@ public class ProfileForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSaveFullName;
     private javax.swing.JButton btnSaveUsername;
+    private javax.swing.JComboBox<String> comboBoxDirection;
     private javax.swing.JComboBox<String> comboxTitle;
     private javax.swing.JTextField fullNameField;
     private javax.swing.JLabel imageLabel;
@@ -973,7 +1003,6 @@ public class ProfileForm extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel lableHome1;
-    private javax.swing.JLabel lableProfile;
     private javax.swing.JLabel moneyDonation;
     private javax.swing.JPasswordField newPasswdField;
     private javax.swing.JPasswordField oldPasswdField;

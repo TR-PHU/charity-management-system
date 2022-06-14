@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import models.Donation;
 import models.PostVolunteer;
+import models.TimeLine;
 import models.User;
 
 /**
@@ -41,14 +42,20 @@ public class ManageUserPost extends javax.swing.JFrame {
     private static User user;
     ArrayList<Donation> listDonations = new ArrayList<>();
     ArrayList<PostVolunteer> listPostVolunteers = new ArrayList<>();
-
+    ArrayList<TimeLine> listTimeLines = new ArrayList<>();
+    
     public ManageUserPost(int userId) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Quản lý hoạt động");
         btnDeleteDonationPost.setVisible(false);
+        btnDeletePostVolunteer.setVisible(false);
+        raiseDonationField.setEnabled(false);
+        raisePeopleField.setEnabled(false);
+        peopleDonatedField.setEnabled(false);
         
-        
+        goalDonationField.setEnabled(false);
+        goalPeopleField.setEnabled(false);
         
         loadLogo();
         loadInfoUser(userId);
@@ -67,7 +74,6 @@ public class ManageUserPost extends javax.swing.JFrame {
 
         panelHeader = new javax.swing.JPanel();
         labelLogo = new javax.swing.JLabel();
-        labelLogin = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         panelMain = new javax.swing.JPanel();
@@ -86,7 +92,7 @@ public class ManageUserPost extends javax.swing.JFrame {
         btnDeleteDonationPost = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         comboBoxTitleVolunteer = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
+        btnDeletePostVolunteer = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         goalPeopleField = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -95,14 +101,13 @@ public class ManageUserPost extends javax.swing.JFrame {
         tablePeopleVolunteerSignUp = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         tableTimeLine = new javax.swing.JTable();
+        comboBoxDirection = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         panelHeader.setBackground(new java.awt.Color(239, 202, 72));
 
         labelLogo.setText("jLabel1");
-
-        labelLogin.setText("Đăng nhập");
 
         jLabel1.setText("Về chúng tôi");
 
@@ -179,9 +184,14 @@ public class ManageUserPost extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 0, 0));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("X");
+        btnDeletePostVolunteer.setBackground(new java.awt.Color(255, 0, 0));
+        btnDeletePostVolunteer.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeletePostVolunteer.setText("X");
+        btnDeletePostVolunteer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletePostVolunteerActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Số người huy động:");
 
@@ -227,14 +237,14 @@ public class ManageUserPost extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Thời gian", "Mô tả", "Hoàn thành"
+                "ID", "Thời gian", "Mô tả", "Hoàn thành"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -255,6 +265,7 @@ public class ManageUserPost extends javax.swing.JFrame {
             tableTimeLine.getColumnModel().getColumn(0).setResizable(false);
             tableTimeLine.getColumnModel().getColumn(1).setResizable(false);
             tableTimeLine.getColumnModel().getColumn(2).setResizable(false);
+            tableTimeLine.getColumnModel().getColumn(3).setResizable(false);
         }
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -296,7 +307,7 @@ public class ManageUserPost extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnDeleteDonationPost)
-                            .addComponent(jButton2))))
+                            .addComponent(btnDeletePostVolunteer))))
                 .addGap(30, 30, 30))
         );
         panelMainLayout.setVerticalGroup(
@@ -312,9 +323,7 @@ public class ManageUserPost extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(goalDonationField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -331,7 +340,7 @@ public class ManageUserPost extends javax.swing.JFrame {
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(comboBoxTitleVolunteer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btnDeletePostVolunteer))
                 .addGap(12, 12, 12)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -347,6 +356,13 @@ public class ManageUserPost extends javax.swing.JFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem tài khoản của bạn", "Đăng bài", "Đăng xuất" }));
+        comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDirectionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
         panelHeader.setLayout(panelHeaderLayout);
         panelHeaderLayout.setHorizontalGroup(
@@ -354,12 +370,12 @@ public class ManageUserPost extends javax.swing.JFrame {
             .addGroup(panelHeaderLayout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(labelLogin)
+                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
             .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -368,11 +384,11 @@ public class ManageUserPost extends javax.swing.JFrame {
             .addGroup(panelHeaderLayout.createSequentialGroup()
                 .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelHeaderLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
+                        .addGap(13, 13, 13)
                         .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(labelLogin)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2)))
+                            .addComponent(jLabel2)
+                            .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelHeaderLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -440,7 +456,9 @@ public class ManageUserPost extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxTitleDonationActionPerformed
 
     private void btnDeleteDonationPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteDonationPostActionPerformed
+        
         String itemSelected = (String) comboBoxTitleDonation.getSelectedItem();
+        int indexItemSelected = comboBoxTitleDonation.getSelectedIndex();
         Donation donationSelected = findDonationSelected(listDonations, itemSelected);
         
         Statement st;
@@ -451,15 +469,10 @@ public class ManageUserPost extends javax.swing.JFrame {
             result = st.executeUpdate(queryDeleteDonationPost);
             if(result == 1) { 
                 JOptionPane.showMessageDialog(null, "Xoá bài viết quyên góp thành công", "Delete donation post sucess", 2);
+                comboBoxTitleDonation.removeItemAt(indexItemSelected);
             } else { 
                 JOptionPane.showMessageDialog(null, "Xoá bài viết quyên góp thất bại", "Delete donation post failed", 2);
             }
-            ManageUserPost manageUserPost = new ManageUserPost(user.getId());
-            manageUserPost.setVisible(true);
-            manageUserPost.pack();
-            manageUserPost.setLocationRelativeTo(null);
-            manageUserPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.dispose();
         } catch (SQLException ex) {
             Logger.getLogger(ManageUserPost.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -467,6 +480,7 @@ public class ManageUserPost extends javax.swing.JFrame {
 
     private void comboBoxTitleVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTitleVolunteerActionPerformed
         DecimalFormat formatter = new DecimalFormat("#,###");
+        
         
         raisePeopleField.setText("0");
         String itemSelected = (String) comboBoxTitleVolunteer.getSelectedItem();
@@ -491,12 +505,12 @@ public class ManageUserPost extends javax.swing.JFrame {
                                         "on urp.user_id = user.id " +
                                         "where post.id = ?";
         if(postVolunteerSelected != null) { 
+            btnDeletePostVolunteer.setVisible(true);
             try {
                 ps = MyConnection.getConnection().prepareStatement(queryGetPostVolunteer);
                 ps.setInt(1, postVolunteerSelected.getId());
                 rs = ps.executeQuery();
                 while(rs.next()) { 
-                    System.out.println(formatter.format(100000000));
                     goalPeopleField.setText(formatter.format(rs.getInt(1)));
                     raisePeopleField.setText(formatter.format(rs.getInt(2)));
                     tablePeopleVolunteerSignUp.getColumn("Đánh giá").setCellRenderer(new ButtonRenderer());
@@ -512,7 +526,7 @@ public class ManageUserPost extends javax.swing.JFrame {
             }
         }
         
-        String queryGetTimeLine = "select take_place, description, has_done " +
+        String queryGetTimeLine = "select id, take_place, description, has_done " +
                                     "from time_lines " +
                                     "where pid = ?";
         
@@ -522,10 +536,12 @@ public class ManageUserPost extends javax.swing.JFrame {
             
             rs = ps.executeQuery();
             while(rs.next()) { 
+                listTimeLines.add(new TimeLine(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
                 tableModelTimeLine.addRow(new Object[] { 
-                    rs.getString(1),
+                    rs.getInt(1),
                     rs.getString(2),
-                    rs.getInt(3) == 1 ? true : false
+                    rs.getString(3),
+                    rs.getInt(4) == 1 ? true : false
                 });
             }
         } catch (SQLException ex) {
@@ -547,9 +563,12 @@ public class ManageUserPost extends javax.swing.JFrame {
         int row = source.rowAtPoint( evt.getPoint() );
         int column = source.columnAtPoint(evt.getPoint());
         
+        String timeLineId = source.getModel().getValueAt(row, 0) + "";
         int option = JOptionPane.NO_OPTION;
+
+        String hasDone = source.getModel().getValueAt(row, 3) + "";
         
-        if(column == 2) { 
+        if(column == 3 && hasDone.equals("false")) { 
             option = JOptionPane.showOptionDialog(new JFrame(), "Sự kiện này đã hoàn thành ?", 
                 "Chỉnh sửa sự kiện", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
                 null, new Object[] {"Đã hoàn thành", "Chưa hoàn thành"}, JOptionPane.YES_OPTION);
@@ -557,11 +576,72 @@ public class ManageUserPost extends javax.swing.JFrame {
         
         if (option == JOptionPane.YES_OPTION) {
             PreparedStatement ps;
-            String queryUpdateDoneTimeLine = "update time_lines set has_done = 1 where pid = ?";
-//            ps = MyConnection.getConnection().prepareStatement()
+            String queryUpdateDoneTimeLine = "update time_lines set has_done = 1 where id = ?";
+            try {
+                ps = MyConnection.getConnection().prepareStatement(queryUpdateDoneTimeLine);
+                ps.setInt(1, Integer.parseInt(timeLineId));
+                
+                if(ps.executeUpdate() != 0 ) { 
+                    JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thành công", "Update time line sucess", 2);
+                    DefaultTableModel tableModelTimeLine = (DefaultTableModel) tableTimeLine.getModel();
+                    tableModelTimeLine.setValueAt(true, row, 3);
+                } else { 
+                    JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thất bại", "Update time line failed", 2);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(ManageUserPost.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         } 
         return;
     }//GEN-LAST:event_tableTimeLineMouseClicked
+
+    private void btnDeletePostVolunteerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletePostVolunteerActionPerformed
+        String itemSelected = (String) comboBoxTitleVolunteer.getSelectedItem();
+        int indexItemSelected = comboBoxTitleVolunteer.getSelectedIndex();
+        
+        PostVolunteer postVolunteerSelected = findPostVolunteerSelected(listPostVolunteers, itemSelected);
+        
+        Statement st;
+        String queryDeletePostVolunteer = "delete from posts where id = " + postVolunteerSelected.getId();
+        int result = 0;
+        try {
+            st = MyConnection.getConnection().createStatement();
+            result = st.executeUpdate(queryDeletePostVolunteer);
+            if(result == 1) { 
+                JOptionPane.showMessageDialog(null, "Xoá bài viết tình nguyện thành công", "Delete volunteer post sucess", 2);
+                comboBoxTitleVolunteer.removeItemAt(indexItemSelected);
+            } else { 
+                JOptionPane.showMessageDialog(null, "Xoá bài viết tình nguyện thất bại", "Delete volunteer post failed", 2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ManageUserPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnDeletePostVolunteerActionPerformed
+
+    private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
+        int index = comboBoxDirection.getSelectedIndex();
+
+        if(index == 0) { 
+            ProfileForm profileForm = new ProfileForm(user.getId(), "");
+            profileForm.setVisible(true);
+            profileForm.pack();
+            profileForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 1) { 
+            CreatePost createPostForm = new CreatePost(user.getId());
+            createPostForm.setVisible(true);
+            createPostForm.pack();
+            createPostForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            loginForm.pack();
+            loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_comboBoxDirectionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -657,6 +737,7 @@ public class ManageUserPost extends javax.swing.JFrame {
         }
         return null;
     }
+
     public PostVolunteer findPostVolunteerSelected(ArrayList<PostVolunteer> postVolunteers, String title) { 
         for (PostVolunteer postVolunteer : postVolunteers) {
             if(postVolunteer.getTitle().equals(title)) { 
@@ -700,11 +781,12 @@ public class ManageUserPost extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeleteDonationPost;
+    private javax.swing.JButton btnDeletePostVolunteer;
+    private javax.swing.JComboBox<String> comboBoxDirection;
     private javax.swing.JComboBox<String> comboBoxTitleDonation;
     private javax.swing.JComboBox<String> comboBoxTitleVolunteer;
     private javax.swing.JTextField goalDonationField;
     private javax.swing.JTextField goalPeopleField;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -719,7 +801,6 @@ public class ManageUserPost extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel labelLogin;
     private javax.swing.JLabel labelLogo;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelMain;

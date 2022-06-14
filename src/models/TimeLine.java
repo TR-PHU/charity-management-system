@@ -10,11 +10,30 @@ package models;
  * @author PHUTRAN
  */
 public class TimeLine {
+    private int id, hasDone;
     private String takePlace, description;
 
-    public TimeLine(String takePlace, String description) {
+    public TimeLine(int id, String takePlace, String description, int hasDone) {
         this.takePlace = takePlace;
         this.description = description;
+        this.id = id;
+        this.hasDone = hasDone;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getHasDone() {
+        return hasDone;
+    }
+
+    public void setHasDone(int hasDone) {
+        this.hasDone = hasDone;
     }
 
     public String getTakePlace() {
@@ -35,7 +54,7 @@ public class TimeLine {
 
     @Override
     public String toString() {
-        return "TimeLine{" + "takePlace=" + takePlace + ", description=" + description + '}';
+        return "TimeLine{" + "id=" + id + ", hasDone=" + hasDone + ", takePlace=" + takePlace + ", description=" + description + '}';
     }
-    
+
 }
