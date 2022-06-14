@@ -52,7 +52,7 @@ public class Ung_ho extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 51));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\Project_Tu_Thien_1\\images\\Đặt hàng.PNG")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Đặt hàng.PNG"))); // NOI18N
         jLabel1.setText("jLabel1");
 
         hoten.addActionListener(new java.awt.event.ActionListener() {

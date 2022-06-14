@@ -77,7 +77,7 @@ public class About extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI Black", 0, 14)); // NOI18N
         jLabel7.setText("cho hoạt động thiện nguyện.");
 
-        jLabel8.setIcon(new javax.swing.ImageIcon("D:\\Project_Tu_Thien_1\\images\\Ảnh about.png")); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Ảnh about.png"))); // NOI18N
         jLabel8.setText("jLabel8");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N

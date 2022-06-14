@@ -91,7 +91,7 @@ public class Dki_TNV extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("D:\\Project_Tu_Thien_1\\images\\Đặt hàng.PNG")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Đặt hàng.PNG"))); // NOI18N
         jLabel1.setText("jLabel1");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
