@@ -5,19 +5,20 @@
  */
 package models;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author PHUTRAN
  */
-public class Donation {
-    private int id;
+public class PostVolunteer {
     private String title;
-    private double money;
-
-    public Donation(int id,String title, double money) {
-        this.id = id;
+    private int id;
+    private double goalPeople;
+    public PostVolunteer(int id,String title, double goalPeople) {
         this.title = title;
-        this.money = money;
+        this.id = id;
+        this.goalPeople = goalPeople;
     }
 
     public int getId() {
@@ -36,17 +37,18 @@ public class Donation {
         this.title = title;
     }
 
-    public double getMoney() {
-        return money;
+    public double getGoalPeople() {
+        return goalPeople;
     }
 
-    public void setMoney(double money) {
-        this.money = money;
+    public void setGoalPeople(double goalPeople) {
+        this.goalPeople = goalPeople;
     }
 
     @Override
     public String toString() {
-        return "Donation{" + "id=" + id + ", title=" + title + ", money=" + money + '}';
+        return "PostVolunteer{" + "title=" + title + ", id=" + id + ", goalPeople=" + goalPeople + '}';
     }
-    
+
+   
 }
