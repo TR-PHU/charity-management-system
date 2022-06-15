@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author PHUTRAN
  */
 public class MyConnection {
-    private static String serverName = "localhost",username = "root",password="272002",dbname="java";
+    private static String serverName = "localhost",username = "root",password="",dbname="java";
     private static Integer portNumber = 3306;
     
     public static Connection getConnection() { 
