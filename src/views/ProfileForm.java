@@ -9,6 +9,8 @@ import connect_db.MyConnection;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
@@ -16,18 +18,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.ScrollBar;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import models.Donation;
+import models.Post;
 import models.User;
+import models.PostVolunteer;
 
 /**
  *
@@ -36,10 +43,12 @@ import models.User;
 public class ProfileForm extends javax.swing.JFrame {
     User user = null;
     ArrayList<Donation> donations = new ArrayList<>();
+    ArrayList<PostVolunteer> postVolunteers = new ArrayList<>(); 
     DefaultTableModel tableModelDonation;
+    DefaultTableModel tableModelVolunteer;
     
-    private static  int userId = 1;    
-    private static  String username = "phudz";
+    private static  int userId;    
+    private static  String username = "";
     
     public ProfileForm(int userId, String username) {
         this.userId = userId;
@@ -50,7 +59,6 @@ public class ProfileForm extends javax.swing.JFrame {
         this.setTitle("Profile");
         btnSaveFullName.setVisible(false);
         btnSaveUsername.setVisible(false);
-        jButton3.setVisible(false);
         
         loadInfoUser();
         loadTableDonations();
@@ -70,14 +78,8 @@ public class ProfileForm extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         lableHome1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        lableProfile = new javax.swing.JLabel();
+        comboBoxDirection = new javax.swing.JComboBox<>();
         panelMain = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        lableHome2 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        profileLabel = new javax.swing.JLabel();
         imageLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -95,14 +97,16 @@ public class ProfileForm extends javax.swing.JFrame {
         retypePasswdField = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         moneyDonation = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableDonation = new javax.swing.JTable();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableActivity = new javax.swing.JTable();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableDonation = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
+        comboxTitle = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,11 +126,10 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
-        lableProfile.setText("Đăng bài");
-        lableProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lableProfile.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lableProfileMouseClicked(evt);
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
+        comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDirectionActionPerformed(evt);
             }
         });
 
@@ -137,12 +140,12 @@ public class ProfileForm extends javax.swing.JFrame {
             .addGroup(panelHeaderLayout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lableHome1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
-                .addComponent(lableProfile)
+                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(80, 80, 80))
         );
         panelHeaderLayout.setVerticalGroup(
@@ -155,71 +158,19 @@ public class ProfileForm extends javax.swing.JFrame {
                         .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lableHome1)
                             .addComponent(jLabel7)
-                            .addComponent(lableProfile))
-                        .addGap(19, 19, 19))))
+                            .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16))))
         );
 
         panelMain.setBackground(new java.awt.Color(239, 202, 72));
 
-        jPanel6.setBackground(new java.awt.Color(239, 202, 72));
-
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
-        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        lableHome2.setText("Trang chủ");
-        lableHome2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        jLabel8.setText("Về chúng tôi");
-        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
-            }
-        });
-
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Tìm kiếm");
-
-        profileLabel.setText("Tài khoản");
-        profileLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                profileLabelMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(77, 77, 77)
-                .addComponent(lableHome2)
-                .addGap(30, 30, 30)
-                .addComponent(jLabel8)
-                .addGap(30, 30, 30)
-                .addComponent(profileLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lableHome2)
-                            .addComponent(jLabel8)
-                            .addComponent(jButton3)
-                            .addComponent(profileLabel))
-                        .addGap(14, 14, 14))))
-        );
-
         imageLabel.setText("image");
+        imageLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        imageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageLabelMouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Họ và tên:");
 
@@ -230,6 +181,9 @@ public class ProfileForm extends javax.swing.JFrame {
         usernameField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         usernameField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         usernameField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                usernameFieldFocusGained(evt);
+            }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 usernameFieldFocusLost(evt);
             }
@@ -288,7 +242,7 @@ public class ProfileForm extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(17, 205, 36));
         jLabel4.setText("Đổi mật khẩu");
 
-        jLabel5.setText("Nhập mật khẩu cũ:");
+        jLabel5.setText("Mẫu khẩu cũ:");
 
         oldPasswdField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         oldPasswdField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -297,7 +251,7 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Nhập mật khẩu mới:");
+        jLabel6.setText("Mật khẩu mới");
 
         newPasswdField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         newPasswdField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -311,7 +265,7 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Nhập lại mật khẩu mới:");
+        jLabel9.setText("Xác nhận mật khẩu:");
 
         retypePasswdField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -329,30 +283,33 @@ public class ProfileForm extends javax.swing.JFrame {
         panelChangePasswdLayout.setHorizontalGroup(
             panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelChangePasswdLayout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
                 .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelChangePasswdLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(oldPasswdField)
-                            .addComponent(newPasswdField)
-                            .addComponent(retypePasswdField, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)))
-                    .addGroup(panelChangePasswdLayout.createSequentialGroup()
-                        .addGap(108, 108, 108)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12))
+                    .addComponent(oldPasswdField, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(newPasswdField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                        .addComponent(retypePasswdField, javax.swing.GroupLayout.Alignment.TRAILING)))
+                .addContainerGap(95, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelChangePasswdLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addGap(189, 189, 189))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelChangePasswdLayout.createSequentialGroup()
+                .addGap(235, 235, 235)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(170, 170, 170))
         );
         panelChangePasswdLayout.setVerticalGroup(
             panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelChangePasswdLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jLabel4)
                 .addGap(12, 12, 12)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(oldPasswdField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -364,18 +321,14 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(retypePasswdField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(241, 11, 11));
         jLabel3.setText("Tài khoản");
-
-        jLabel10.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(241, 11, 11));
-        jLabel10.setText("Số tiền quyên góp");
 
         jLabel12.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(17, 205, 36));
@@ -385,87 +338,44 @@ public class ProfileForm extends javax.swing.JFrame {
         moneyDonation.setText("0");
         moneyDonation.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        jLabel14.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(241, 11, 11));
-        jLabel14.setText("Danh sách tham gia tình nguyện viên");
+        jTabbedPane1.setForeground(new java.awt.Color(241, 11, 11));
+        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
-        panelMain.setLayout(panelMainLayout);
-        panelMainLayout.setHorizontalGroup(
-            panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelChangePasswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addGap(20, 20, 20)
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(12, 12, 12)
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelMainLayout.createSequentialGroup()
-                                        .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnSaveUsername))
-                                    .addGroup(panelMainLayout.createSequentialGroup()
-                                        .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnSaveFullName)))))
-                        .addGap(80, 80, 80))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addGroup(panelMainLayout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(36, 36, 36)
-                                .addComponent(moneyDonation, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        panelMainLayout.setVerticalGroup(
-            panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMainLayout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSaveFullName))
-                        .addGap(16, 16, 16)
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSaveUsername))))
-                .addGap(20, 20, 20)
-                .addComponent(jLabel3)
-                .addGap(12, 12, 12)
-                .addComponent(panelChangePasswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
-                .addComponent(jLabel10)
-                .addGap(12, 12, 12)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(moneyDonation))
-                .addGap(102, 102, 102)
-                .addComponent(jLabel14)
-                .addContainerGap(161, Short.MAX_VALUE))
-        );
+        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        tableDonation.setBorder(new javax.swing.border.MatteBorder(null));
+            },
+            new String [] {
+                "Thời gian", "Mô tả", "Hoàn thành"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableActivity);
+        if (tableActivity.getColumnModel().getColumnCount() > 0) {
+            tableActivity.getColumnModel().getColumn(0).setResizable(false);
+            tableActivity.getColumnModel().getColumn(1).setResizable(false);
+            tableActivity.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jTabbedPane1.addTab("Danh sách hoạt động tình nguyên đã tham gia", jScrollPane1);
+
+        jTabbedPane2.setForeground(new java.awt.Color(241, 11, 11));
+
+        tableDonation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tableDonation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -495,59 +405,106 @@ public class ProfileForm extends javax.swing.JFrame {
             tableDonation.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        jTabbedPane2.addTab("Số tiền quyên góp ", jScrollPane2);
 
-            },
-            new String [] {
-                "Tên dự án"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false
-            };
+        jLabel15.setText("Tên dự án:");
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        comboxTitle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboxTitleActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(tableActivity);
-        if (tableActivity.getColumnModel().getColumnCount() > 0) {
-            tableActivity.getColumnModel().getColumn(0).setResizable(false);
-        }
+
+        javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
+        panelMain.setLayout(panelMainLayout);
+        panelMainLayout.setHorizontalGroup(
+            panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMainLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(panelChangePasswd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(12, 12, 12)
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelMainLayout.createSequentialGroup()
+                                        .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSaveUsername))
+                                    .addGroup(panelMainLayout.createSequentialGroup()
+                                        .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSaveFullName))))
+                            .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(moneyDonation, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(80, 80, 80))
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(panelMainLayout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboxTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        panelMainLayout.setVerticalGroup(
+            panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMainLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSaveFullName))
+                        .addGap(12, 12, 12)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSaveUsername))))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelChangePasswd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel12)
+                    .addComponent(moneyDonation))
+                .addGap(12, 12, 12)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(comboxTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(43, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(82, 82, 82)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelMain, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 407, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -604,7 +561,15 @@ public class ProfileForm extends javax.swing.JFrame {
     
     public void loadTableDonations() { 
         tableModelDonation = (DefaultTableModel) tableDonation.getModel();
-        String queryDonation = "select * from donations";
+        String queryDonation = "select post.id, title, donate_money "+
+                                "from posts as post " +
+                                "left join  user_ref_posts as urp " +
+                                "on post.id = urp.post_id " +
+                                "left join users as user " +
+                                "on urp.user_id = user.id " +
+                                "where donate_money > 0 and " +
+                                "user.id = " + user.getId();
+        
         Statement statementDonation = null;
         
         try {
@@ -613,14 +578,50 @@ public class ProfileForm extends javax.swing.JFrame {
             ResultSet resultSet = statementDonation.executeQuery(queryDonation);
             
             while(resultSet.next()) { 
-//                Donation donation = new Donation(resultSet.getInt(1), resultSet.getString(2), resultSet.getBlob(3), resultSet.getString(4), resultSet.getString(5), resultSet.getString(6), resultSet.getString(7), resultSet.getString(8));
+                Donation donation = new Donation(resultSet.getInt(1),resultSet.getString(2), resultSet.getDouble(3));
+                donations.add(donation);
             }
+            double totalMoney = 0;
+            for (Donation donation : donations) {
+                tableModelDonation.addRow(new Object[] { 
+                    donation.getTitle(),
+                    donation.getMoney(),
+                });
+                totalMoney += donation.getMoney();
+            }
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            moneyDonation.setText(formatter.format(totalMoney));
         } catch (SQLException ex) {
             Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public void loadTableVolunteerSignUp() { 
-        
+        String queryVolunteer = "select post_id, title, goal_people " +
+                                "from posts as post " +
+                                "inner join user_ref_posts as urp " +
+                                "on post.id = urp.post_id " +
+                                "inner join users as user " +
+                                "on urp.user_id = user.id " +
+                                "where (has_evaluated = '1' or has_evaluated = '0') and " +
+                                "user.id = " + user.getId();
+        Statement statementDonation = null;
+        try {
+            statementDonation = MyConnection.getConnection().createStatement();
+
+            ResultSet resultSet = statementDonation.executeQuery(queryVolunteer);
+            
+            while(resultSet.next()) { 
+                PostVolunteer postVolunteer = new PostVolunteer(resultSet.getInt(1),resultSet.getString(2), resultSet.getDouble(3));
+                postVolunteers.add(postVolunteer);
+            }
+            
+            for (PostVolunteer volunteer : postVolunteers) {
+                comboxTitle.addItem(volunteer.getTitle());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }
     
     public boolean checkUsername(String username,String oldUserName) {
@@ -646,12 +647,9 @@ public class ProfileForm extends javax.swing.JFrame {
         }
         return usernameExist;
     }
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel7MouseClicked
-
     private void btnSaveUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveUsernameActionPerformed
         String oldUserName = user.getUsername();
+        System.out.println(oldUserName);
         String username = usernameField.getText();
 
         if(username.trim().equals("")) {
@@ -738,14 +736,6 @@ public class ProfileForm extends javax.swing.JFrame {
         btnSaveUsername.setVisible(false);
     }//GEN-LAST:event_usernameFieldFocusLost
 
-    private void profileLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileLabelMouseClicked
-        System.out.println(user.getId());
-    }//GEN-LAST:event_profileLabelMouseClicked
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel8MouseClicked
-
     private void newPasswdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPasswdFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_newPasswdFieldActionPerformed
@@ -793,15 +783,127 @@ public class ProfileForm extends javax.swing.JFrame {
     private void newPasswdFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_newPasswdFieldFocusLost
     }//GEN-LAST:event_newPasswdFieldFocusLost
 
-    private void lableProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lableProfileMouseClicked
-        ProfileForm profileForm = new ProfileForm(user.getId(),user.getUsername());
-        profileForm.setVisible(true);
-        profileForm.pack();
-        profileForm.setLocationRelativeTo(null);
-        profileForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_lableProfileMouseClicked
-    
+    private void comboxTitleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxTitleActionPerformed
+        tableModelVolunteer = (DefaultTableModel) tableActivity.getModel();
+        tableModelVolunteer.setRowCount(0);
+        String selectedItem = (String) comboxTitle.getSelectedItem();
+        
+        PostVolunteer postVolunteerSelected = findPostVolunteers(postVolunteers, selectedItem);
+        
+        PreparedStatement ps;
+        ResultSet rs;
+        String query = "select take_place,description, has_done from time_lines where pid=?";
+        
+        try {
+            ps = MyConnection.getConnection().prepareStatement(query);
+            ps.setInt(1, postVolunteerSelected.getId());
+            rs = ps.executeQuery();
+            while(rs.next()) { 
+                tableModelVolunteer.addRow(new Object []{
+                    rs.getString(1),
+                    rs.getString(2),
+                    rs.getInt(3) == 1 ? true : false,
+                });
+            } 
+            return;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_comboxTitleActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void imageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageLabelMouseClicked
+        String path = null;
+        
+        JFileChooser chooser = new JFileChooser();
+        
+        chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        
+        // File extension
+        FileNameExtensionFilter extension = new FileNameExtensionFilter("*.images", "jpg","png","jpeg");
+        chooser.addChoosableFileFilter(extension);
+        
+        int result = chooser.showSaveDialog(null);
+        
+        // Check if user select an image
+        File selectedImage = chooser.getSelectedFile();
+        String fileName = selectedImage.getName();
+        if(fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".jpeg") || fileName.endsWith(".JPG") || fileName.endsWith(".PNG") || fileName.endsWith(".JPEG")) { 
+           if(result == JFileChooser.APPROVE_OPTION) { 
+                path = selectedImage.getAbsolutePath();
+                ImageIcon myImage = new ImageIcon(path);
+
+                
+                PreparedStatement ps;
+                String queryChangeAvt = "update users set avatar = ? where id = ?"; 
+                
+               try {
+                   ps = MyConnection.getConnection().prepareStatement(queryChangeAvt);
+                    try {
+                        InputStream imageUpload = new FileInputStream(new File(path));
+                        ps.setBlob(1, imageUpload);                        
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    ps.setInt(2, user.getId());
+                    if(ps.executeUpdate() != 0) {
+                        Image image = myImage.getImage();
+                        Image newImage = image.getScaledInstance(imageLabel.getWidth(),imageLabel.getHeight(),Image.SCALE_SMOOTH);
+                        ImageIcon imageIcon = new ImageIcon(newImage);
+                        imageLabel.setIcon(imageIcon);
+                        JOptionPane.showMessageDialog(null, "Thay đổi ảnh đại diện thành công", "Change avatar success", 2);
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Thay đổi ảnh đại diện không thành công", "Change avatart failed", 2);
+                    }
+               } catch (SQLException ex) {
+                   Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+               }
+                
+            }
+        } else { 
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng chỉ chọn ảnh");
+        }
+    }//GEN-LAST:event_imageLabelMouseClicked
+
+    private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
+        int index = comboBoxDirection.getSelectedIndex();
+
+        if(index == 0) { 
+            ManageUserPost manageUserPost = new ManageUserPost(user.getId());
+            manageUserPost.setVisible(true);
+            manageUserPost.pack();
+            manageUserPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 1) { 
+            CreatePost createPostForm = new CreatePost(user.getId());
+            createPostForm.setVisible(true);
+            createPostForm.pack();
+            createPostForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            loginForm.pack();
+            loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
+    private void usernameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFieldFocusGained
+        btnSaveUsername.setVisible(true);
+        usernameField.setBackground(Color.WHITE);
+    }//GEN-LAST:event_usernameFieldFocusGained
+    public PostVolunteer findPostVolunteers(ArrayList<PostVolunteer> listVolunteer,String title) { 
+        for (PostVolunteer postVolunteer : listVolunteer) {
+            if(postVolunteer.getTitle().equals(title)) { 
+                return postVolunteer; 
+            }
+        }
+        return null;
+    }
     public boolean verifyEmptyChangePasswd(String oldPasswd,String newPasswd,String retypePasswd) { 
         if (oldPasswd.trim().equals("") || newPasswd.trim().equals("") || retypePasswd.trim().equals("")) 
         { 
@@ -862,6 +964,12 @@ public class ProfileForm extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -874,37 +982,33 @@ public class ProfileForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSaveFullName;
     private javax.swing.JButton btnSaveUsername;
+    private javax.swing.JComboBox<String> comboBoxDirection;
+    private javax.swing.JComboBox<String> comboxTitle;
     private javax.swing.JTextField fullNameField;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel lableHome1;
-    private javax.swing.JLabel lableHome2;
-    private javax.swing.JLabel lableProfile;
     private javax.swing.JLabel moneyDonation;
     private javax.swing.JPasswordField newPasswdField;
     private javax.swing.JPasswordField oldPasswdField;
     private javax.swing.JPanel panelChangePasswd;
     private javax.swing.JPanel panelHeader;
     private javax.swing.JPanel panelMain;
-    private javax.swing.JLabel profileLabel;
     private javax.swing.JPasswordField retypePasswdField;
     private javax.swing.JTable tableActivity;
     private javax.swing.JTable tableDonation;

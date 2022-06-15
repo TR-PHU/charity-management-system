@@ -75,6 +75,12 @@ public class LoginForm extends javax.swing.JFrame {
         lableHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel6.setText("Về chúng tôi");
+        jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         cmdLogin.setText("Đăng nhập");
         cmdLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -116,8 +122,9 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageLogin.png"))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(241, 11, 11));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 11, 11));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("TỪ THIỆN");
         jLabel1.setMaximumSize(new java.awt.Dimension(60, 60));
         jLabel1.setPreferredSize(new java.awt.Dimension(60, 20));
@@ -185,19 +192,20 @@ public class LoginForm extends javax.swing.JFrame {
                         .addComponent(btnLogin)
                         .addGap(119, 119, 119))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmdRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(passworldField, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                            .addComponent(usernameField))
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(cmdRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(passworldField, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                                    .addComponent(usernameField)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(30, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,8 +217,8 @@ public class LoginForm extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(44, 44, 44)
                         .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(passworldField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -251,15 +259,6 @@ public class LoginForm extends javax.swing.JFrame {
         registerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_cmdRegisterMouseClicked
-
-    private void cmdLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmdLoginMouseClicked
-        LoginForm loginForm = new LoginForm();
-        loginForm.setVisible(true);
-        loginForm.pack();
-        loginForm.setLocationRelativeTo(null);
-        loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
-    }//GEN-LAST:event_cmdLoginMouseClicked
 
     private void usernameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFieldFocusGained
         if(usernameField.getText().equals("Tên đăng nhập") == true ) {
@@ -304,7 +303,7 @@ public class LoginForm extends javax.swing.JFrame {
         } else if (password.trim().equals("password")) { 
             JOptionPane.showMessageDialog(null, "Vui lòng nhập mật khẩu của bạn", "Empty Password", 2);
         } else { 
-            String query = "select * from users where username = ? and password = ?";
+            String query = "select id, status from users where username = ? and password = ?";
 
             try {
                 st = MyConnection.getConnection().prepareStatement(query);
@@ -315,11 +314,15 @@ public class LoginForm extends javax.swing.JFrame {
                 rs = st.executeQuery();
 
                 if(rs.next()) { 
-                    ProfileForm profileFrame = new ProfileForm(rs.getInt(1),username);
-                    profileFrame.setVisible(true);
-                    profileFrame.pack();
-                    profileFrame.setLocationRelativeTo(null);
-                    this.dispose();
+                    if(rs.getInt(2) == 1) { 
+                        ProfileForm profileFrame = new ProfileForm(rs.getInt(1),username);
+                        profileFrame.setVisible(true);
+                        profileFrame.pack();
+                        profileFrame.setLocationRelativeTo(null);
+                        this.dispose();
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Tài khoản của bạn đã bị khoá", "Account has been block",2);
+                    }
                 } else { 
                     JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu không đúng", "Login Error",2);
                 }
@@ -328,6 +331,24 @@ public class LoginForm extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+                AboutForm aboutForm = new AboutForm();
+                aboutForm.setVisible(true);
+                aboutForm.setLocationRelativeTo(null);
+                aboutForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                aboutForm.pack();
+                this.dispose();
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void cmdLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmdLoginMouseClicked
+        LoginForm loginForm = new LoginForm();
+        loginForm.setVisible(true);
+        loginForm.pack();
+        loginForm.setLocationRelativeTo(null);
+        loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_cmdLoginMouseClicked
 
     /**
      * @param args the command line arguments
