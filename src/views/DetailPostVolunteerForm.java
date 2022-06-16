@@ -12,10 +12,12 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.Post;
 import models.TimeLine;
@@ -33,6 +35,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
     private static int postId;
     private static int userId;
     private static TimeLine timeLine;
+    private static boolean isFull = false;
     
     public DetailPostVolunteerForm(int postId, int userId) {
         initComponents();
@@ -79,21 +82,22 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         tableTimeLine = new javax.swing.JTable();
         comboBoxDirection = new javax.swing.JComboBox<>();
 
-        panelVolunteer.setBackground(new java.awt.Color(239, 202, 72));
+        panelVolunteer.setBackground(new java.awt.Color(189, 213, 234));
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Số người cần huy động:");
 
-        labelGoalPeople.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        labelGoalPeople.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelGoalPeople.setForeground(new java.awt.Color(17, 25, 205));
-        labelGoalPeople.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelGoalPeople.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelGoalPeople.setText("0");
-        labelGoalPeople.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setText("Số người đã đăng ký:");
 
-        labelRaisePeople.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        labelRaisePeople.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelRaisePeople.setForeground(new java.awt.Color(17, 205, 58));
-        labelRaisePeople.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelRaisePeople.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelRaisePeople.setText("0");
 
         javax.swing.GroupLayout panelVolunteerLayout = new javax.swing.GroupLayout(panelVolunteer);
@@ -128,6 +132,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         );
 
         btnVolunteerSignUp.setBackground(new java.awt.Color(235, 35, 35));
+        btnVolunteerSignUp.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnVolunteerSignUp.setForeground(new java.awt.Color(255, 255, 255));
         btnVolunteerSignUp.setText("Đăng ký");
         btnVolunteerSignUp.addActionListener(new java.awt.event.ActionListener() {
@@ -136,20 +141,22 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
             }
         });
 
-        panelDonation.setBackground(new java.awt.Color(239, 202, 72));
+        panelDonation.setBackground(new java.awt.Color(189, 213, 234));
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel5.setText("Số tiền cần huy động:");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel6.setText("Số tiền đã quyên góp:");
 
-        labelRaiseMoney.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        labelRaiseMoney.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelRaiseMoney.setForeground(new java.awt.Color(17, 25, 205));
-        labelRaiseMoney.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelRaiseMoney.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelRaiseMoney.setText("30000000");
 
-        labelGoalMoney.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        labelGoalMoney.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelGoalMoney.setForeground(new java.awt.Color(17, 205, 58));
-        labelGoalMoney.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelGoalMoney.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelGoalMoney.setText("2000000");
 
         javax.swing.GroupLayout panelDonationLayout = new javax.swing.GroupLayout(panelDonation);
@@ -161,7 +168,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                     .addGroup(panelDonationLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(labelRaiseMoney, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
+                        .addComponent(labelRaiseMoney, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panelDonationLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -183,6 +190,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         );
 
         btnDonation.setBackground(new java.awt.Color(235, 35, 35));
+        btnDonation.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnDonation.setForeground(new java.awt.Color(255, 255, 255));
         btnDonation.setText("TÔI MUỐN ỦNG HỘ");
         btnDonation.addActionListener(new java.awt.event.ActionListener() {
@@ -193,30 +201,45 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelHeader.setBackground(new java.awt.Color(239, 202, 72));
+        panelHeader.setBackground(new java.awt.Color(189, 213, 234));
 
         labelLogo.setText("jLabel1");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel1.setText("Về chúng tôi");
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Trang chủ");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
-        panelMain.setBackground(new java.awt.Color(239, 202, 72));
+        panelMain.setBackground(new java.awt.Color(189, 213, 234));
 
         labelImagePost.setText("jLabel3");
 
         labelTitle.setBackground(new java.awt.Color(255, 255, 255));
-        labelTitle.setFont(new java.awt.Font("SansSerif", 1, 15)); // NOI18N
+        labelTitle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         labelTitle.setForeground(new java.awt.Color(241, 11, 11));
         labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelTitle.setText("jLabel3");
 
         textDescField.setColumns(20);
-        textDescField.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        textDescField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         textDescField.setRows(5);
         textDescField.setDisabledTextColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(textDescField);
 
+        tableTimeLine.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tableTimeLine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -277,6 +300,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                 .addGap(183, 183, 183))
         );
 
+        comboBoxDirection.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem thông tin tài khoản", "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
         comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -293,7 +317,7 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                 .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -329,22 +353,31 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolunteerSignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolunteerSignUpActionPerformed
-        
-        VolunteerSignUpForm volunteerSignUpForm = new VolunteerSignUpForm(post.getId(), userId);
-        volunteerSignUpForm.setVisible(true);
-        volunteerSignUpForm.pack();
-        volunteerSignUpForm.setLocationRelativeTo(null);
-        volunteerSignUpForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
+        if(isFull == true) { 
+            JOptionPane.showMessageDialog(null, "Sự kiện này đã đủ người", "Full people", 2);
+        }
+        else { 
+            VolunteerSignUpForm volunteerSignUpForm = new VolunteerSignUpForm(post.getId(), userId);
+            volunteerSignUpForm.setVisible(true);
+            volunteerSignUpForm.pack();
+            volunteerSignUpForm.setLocationRelativeTo(null);
+            volunteerSignUpForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnVolunteerSignUpActionPerformed
 
     private void btnDonationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonationActionPerformed
-        DonationForm donationForm = new DonationForm(post.getId(), userId);
-        donationForm.setVisible(true);
-        donationForm.pack();
-        donationForm.setLocationRelativeTo(null);
-        donationForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.dispose();
+        if(isFull == true) { 
+            JOptionPane.showMessageDialog(null, "Sự kiện này đã huy động đủ tiền", "Full raise money", 2);
+        }
+        else { 
+            DonationForm donationForm = new DonationForm(post.getId(), userId);
+            donationForm.setVisible(true);
+            donationForm.pack();
+            donationForm.setLocationRelativeTo(null);
+            donationForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnDonationActionPerformed
 
     private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
@@ -377,6 +410,24 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboBoxDirectionActionPerformed
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        AboutForm aboutForm = new AboutForm(userId);
+        aboutForm.setVisible(true);
+        aboutForm.setLocationRelativeTo(null);
+        aboutForm.pack();
+        aboutForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        Home home = new Home(userId);
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -391,7 +442,8 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
         labelLogo.setIcon(imageIcon);
     }
     public void loadInfoPost(int postId) {
-        System.out.println(postId);
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        
         PreparedStatement ps;
         ResultSet rs;
         String query = "select * from posts " +
@@ -406,7 +458,6 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
             rs = ps.executeQuery();
             if(rs.next()) { 
                 post = new Post(rs.getInt(1), rs.getString(2), rs.getBlob(3), rs.getDouble(4), rs.getDouble(5), rs.getInt(6), rs.getInt(7), rs.getString(8));
-                System.out.println(post.toString());
             }
             if(post.getGoalMoney() == 0) { 
                 panelMain.add(panelVolunteer);
@@ -416,15 +467,20 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
                 
                 labelRaisePeople.setText(String.valueOf(post.getRaisePeople()));
                 labelGoalPeople.setText(String.valueOf(post.getGoalPeople()));
-                
+                if(post.getRaisePeople() == post.getGoalPeople()) { 
+                    isFull = true;
+                }
             } else { 
                 panelMain.add(panelDonation);
                 panelDonation.setBounds(30, 300, 202, 100);
                 panelMain.add(btnDonation);
                 btnDonation.setBounds(361,395,137,28);
                 
-                labelRaiseMoney.setText(String.valueOf(post.getRaiseMoney()));
-                labelGoalMoney.setText(String.valueOf(post.getGoalMoney()));
+                labelRaiseMoney.setText(df.format(post.getRaiseMoney()));
+                labelGoalMoney.setText(df.format(post.getGoalMoney()));
+                if(post.getRaiseMoney() == post.getGoalMoney()) { 
+                    isFull = true;
+                }
             }
             labelTitle.setText(post.getTitle());
             textDescField.setText(post.getDescription());
@@ -444,6 +500,8 @@ public class DetailPostVolunteerForm extends javax.swing.JFrame {
             Image newImage = image.getScaledInstance(labelImagePost.getWidth(), labelImagePost.getHeight(), Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(newImage);
             labelImagePost.setIcon(imageIcon);
+            
+
             this.setTitle(post.getTitle());
         } catch (SQLException ex) {
             Logger.getLogger(DetailPostVolunteerForm.class.getName()).log(Level.SEVERE, null, ex);

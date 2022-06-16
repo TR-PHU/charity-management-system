@@ -19,17 +19,21 @@ public class AboutForm extends javax.swing.JFrame {
     /**
      * Creates new form About
      */
-    private static  int userId;
+    private static  int userId = -1;
     public AboutForm(int userId) {
         this.userId = userId;
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Về chúng tôi");
         
+        this.add(labelHome);
+        labelHome.setBounds(375,37,53,16);
+        this.add(labelAbout);
+        labelAbout.setBounds(450,37, 70, 16);
         loadImageLabel();
         
         //Them mau nen
-        getContentPane().setBackground(new java.awt.Color(239,202,72));
+        getContentPane().setBackground(new java.awt.Color(189,213,234));
         setVisible(true);
     }
     public AboutForm() {
@@ -39,15 +43,18 @@ public class AboutForm extends javax.swing.JFrame {
 
         
         this.add(labelLogIn);
-        labelLogIn.setBounds(560, 37, 650, 16);
-        labelHome.setBounds(650, 37, 53, 16);
+        this.add(labelHome);
+        this.add(labelAbout);
+        labelLogIn.setBounds(650, 37, 60, 16);
+        labelAbout.setBounds(550, 37, 70, 16);
+        labelHome.setBounds(470, 37, 60, 16);
         comboBoxDirection.setVisible(false);
         
 
         loadImageLabel();
         
-        //Them mau nen
-        getContentPane().setBackground(new java.awt.Color(239,202,72));
+        //Them mau nen [189,213,234]
+        getContentPane().setBackground(new java.awt.Color(189,213,234));
         setVisible(true);
     }
 
@@ -61,6 +68,8 @@ public class AboutForm extends javax.swing.JFrame {
     private void initComponents() {
 
         labelLogIn = new javax.swing.JLabel();
+        labelHome = new javax.swing.JLabel();
+        labelAbout = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -71,7 +80,6 @@ public class AboutForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         lableImage = new javax.swing.JLabel();
-        labelHome = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         comboBoxDirection = new javax.swing.JComboBox<>();
 
@@ -81,6 +89,24 @@ public class AboutForm extends javax.swing.JFrame {
         labelLogIn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 labelLogInMouseClicked(evt);
+            }
+        });
+
+        labelHome.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        labelHome.setText("Trang chủ");
+        labelHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelHomeMouseClicked(evt);
+            }
+        });
+
+        labelAbout.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        labelAbout.setText("Về chúng tôi");
+        labelAbout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        labelAbout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelAboutMouseClicked(evt);
             }
         });
 
@@ -116,14 +142,11 @@ public class AboutForm extends javax.swing.JFrame {
 
         lableImage.setText("jLabel8");
 
-        labelHome.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        labelHome.setText("Trang chủ");
-        labelHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
         jLabel14.setText("jLabel14");
 
-        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem thông tin của bạn", "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
+        comboBoxDirection.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem tài khoản của bạn", "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
         comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxDirectionActionPerformed(evt);
@@ -160,10 +183,7 @@ public class AboutForm extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(labelHome)
-                                .addGap(20, 20, 20)
-                                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(comboBoxDirection, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(119, 119, 119)))))
@@ -174,7 +194,6 @@ public class AboutForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelHome)
                     .addComponent(jLabel14)
                     .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -242,6 +261,28 @@ public class AboutForm extends javax.swing.JFrame {
         loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_labelLogInMouseClicked
+
+    private void labelAboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelAboutMouseClicked
+
+    }//GEN-LAST:event_labelAboutMouseClicked
+
+    private void labelHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelHomeMouseClicked
+        if(userId > 0) { 
+            Home home = new Home(userId);
+            home.setVisible(true);
+            home.setLocationRelativeTo(null);
+            home.pack();
+            home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            Home home = new Home();
+            home.setVisible(true);
+            home.setLocationRelativeTo(null);
+            home.pack();
+            home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
+    }//GEN-LAST:event_labelHomeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -315,6 +356,7 @@ public class AboutForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel labelAbout;
     private javax.swing.JLabel labelHome;
     private javax.swing.JLabel labelLogIn;
     private javax.swing.JLabel lableImage;

@@ -27,8 +27,8 @@ public class DonationForm extends javax.swing.JFrame {
     /**
      * Creates new form Ung_ho
      */
-    private static int postId = 1;
-    private static int userId = 4;
+    private static int postId;
+    private static int userId;
     
     public DonationForm(int postId, int userId) {
         this.postId = postId;
@@ -43,7 +43,7 @@ public class DonationForm extends javax.swing.JFrame {
         loadImageLabel();
         
         //Them mau nen
-        getContentPane().setBackground(new java.awt.Color(239,202,72));
+        getContentPane().setBackground(new java.awt.Color(189,213,234));
         setVisible(true);
     }
 
@@ -115,6 +115,11 @@ public class DonationForm extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Trang chủ");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Về chúng tôi");
@@ -217,27 +222,68 @@ public class DonationForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         double moneyDonated = Double.parseDouble(this.moneyDonatedField.getText());
+        String queryCheckMoneyDonate = "select goal_money,raise_money from posts where id = " + postId;
+        Statement statementCheckMoneyDonate;
+        ResultSet resultSetCheckMoneyDonate;
         
-        String query = "insert into user_ref_posts (user_id, post_id, donate_money) VALUES (?, ?, ?)";
-        PreparedStatement psInsert, psUpdate;
-        
-        String queryUpdateMoneyDonate = "update posts set raise_money = raise_money + ? where id = " + postId;
         try {
-            psInsert = MyConnection.getConnection().prepareStatement(query);
-            psInsert.setInt(1, userId);
-            psInsert.setInt(2, postId);
-            psInsert.setDouble(3, moneyDonated);
+            statementCheckMoneyDonate = MyConnection.getConnection().createStatement();
+            resultSetCheckMoneyDonate = statementCheckMoneyDonate.executeQuery(queryCheckMoneyDonate);
             
-            psUpdate = MyConnection.getConnection().prepareStatement(queryUpdateMoneyDonate);
-            psUpdate.setDouble(1, moneyDonated);
+            resultSetCheckMoneyDonate.next();
             
-            if(psInsert.executeUpdate() != 0 && psUpdate.executeUpdate() != 0) { 
-                JOptionPane.showMessageDialog(null, "Quyên góp thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            if(resultSetCheckMoneyDonate.getDouble(2) + moneyDonated <= resultSetCheckMoneyDonate.getDouble(1)) { 
+                String queryCheckHasDonateForThisPost = "select donate_money from user_ref_posts where user_id =" + userId + " and post_id = " + postId;
+                Statement statement;
+                ResultSet rs;
+                
+                statement = MyConnection.getConnection().createStatement();
+                rs = statement.executeQuery(queryCheckHasDonateForThisPost);
+                
+                if(rs.next()) { 
+                    String query = "update user_ref_posts set donate_money = donate_money + ? where user_id = ? and post_id = ?";
+                    PreparedStatement psInsert, psUpdate;
+
+                    String queryUpdateMoneyDonate = "update posts set raise_money = raise_money + ? where id = " + postId;
+                    psInsert = MyConnection.getConnection().prepareStatement(query);
+                    psInsert.setInt(2, userId);
+                    psInsert.setInt(3, postId);
+                    psInsert.setDouble(1, moneyDonated);
+
+                    psUpdate = MyConnection.getConnection().prepareStatement(queryUpdateMoneyDonate);
+                    psUpdate.setDouble(1, moneyDonated);
+
+                    if(psInsert.executeUpdate() != 0 && psUpdate.executeUpdate() != 0) { 
+                        JOptionPane.showMessageDialog(null, "Quyên góp thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Quyên góp không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else { 
+                    String query = "insert into user_ref_posts (user_id, post_id, donate_money) VALUES (?, ?, ?)";
+                    PreparedStatement psInsert, psUpdate;
+
+                    String queryUpdateMoneyDonate = "update posts set raise_money = raise_money + ? where id = " + postId;
+                    psInsert = MyConnection.getConnection().prepareStatement(query);
+                    psInsert.setInt(1, userId);
+                    psInsert.setInt(2, postId);
+                    psInsert.setDouble(3, moneyDonated);
+
+                    psUpdate = MyConnection.getConnection().prepareStatement(queryUpdateMoneyDonate);
+                    psUpdate.setDouble(1, moneyDonated);
+
+                    if(psInsert.executeUpdate() != 0 && psUpdate.executeUpdate() != 0) { 
+                        JOptionPane.showMessageDialog(null, "Quyên góp thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Quyên góp không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+            } else if(resultSetCheckMoneyDonate.getDouble(2) == resultSetCheckMoneyDonate.getDouble(1)) { 
+                JOptionPane.showMessageDialog(null, "Dự án này đã huy động đủ số tiền", "Full Money", 2);
             } else { 
-                JOptionPane.showMessageDialog(null, "Quyên góp không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Không quyên góp vượt quá số tiền kêu gọi", "Over money raise", 2);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(VolunteerSignUpForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DonationForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -264,6 +310,15 @@ public class DonationForm extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        Home home = new Home(userId);
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments

@@ -55,6 +55,7 @@ public class LoginForm extends javax.swing.JFrame {
         cmdRegister = new javax.swing.JLabel();
         passworldField = new javax.swing.JPasswordField();
         usernameField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         jLabel8.setText("jLabel8");
 
@@ -64,16 +65,23 @@ public class LoginForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(239, 202, 72));
+        jPanel1.setBackground(new java.awt.Color(189, 213, 234));
 
-        jPanel2.setBackground(new java.awt.Color(239, 202, 72));
+        jPanel2.setBackground(new java.awt.Color(189, 213, 234));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
         jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        lableHome.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lableHome.setText("Trang chủ");
         lableHome.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lableHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lableHomeMouseClicked(evt);
+            }
+        });
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel6.setText("Về chúng tôi");
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -82,6 +90,7 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        cmdLogin.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cmdLogin.setText("Đăng nhập");
         cmdLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cmdLogin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -99,7 +108,7 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lableHome)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel6)
                 .addGap(18, 18, 18)
                 .addComponent(cmdLogin)
@@ -122,7 +131,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageLogin.png"))); // NOI18N
 
         jLabel1.setBackground(new java.awt.Color(241, 11, 11));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 11, 11));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("TỪ THIỆN");
@@ -130,6 +139,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(60, 20));
 
         btnLogin.setBackground(new java.awt.Color(16, 169, 218));
+        btnLogin.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("ĐĂNG NHẬP");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -138,9 +148,11 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Bạn không có tài khoản ?");
 
         cmdRegister.setBackground(new java.awt.Color(26, 159, 234));
+        cmdRegister.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         cmdRegister.setForeground(new java.awt.Color(26, 159, 234));
         cmdRegister.setText(" Hãy tạo tài khoản");
         cmdRegister.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -178,6 +190,16 @@ public class LoginForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(17, 205, 36));
+        jLabel3.setText("Bạn quên mật khẩu?");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -187,25 +209,26 @@ public class LoginForm extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passworldField, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                            .addComponent(usernameField)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmdRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnLogin)
-                        .addGap(119, 119, 119))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cmdRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(passworldField, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                                    .addComponent(usernameField)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(30, Short.MAX_VALUE))))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnLogin)
+                                .addGap(89, 89, 89)))))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,22 +236,24 @@ public class LoginForm extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(44, 44, 44)
                         .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(passworldField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(cmdRegister))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel3)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(cmdRegister))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -350,6 +375,24 @@ public class LoginForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cmdLoginMouseClicked
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm();
+        forgotPasswordForm.setVisible(true);
+        forgotPasswordForm.setLocationRelativeTo(null);
+        forgotPasswordForm.pack();
+        forgotPasswordForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void lableHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lableHomeMouseClicked
+        Home home = new Home();
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_lableHomeMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -393,6 +436,7 @@ public class LoginForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;

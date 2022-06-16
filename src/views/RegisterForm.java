@@ -7,6 +7,7 @@ package views;
 
 import connect_db.MyConnection;
 import java.awt.Color;
+import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,6 +21,7 @@ import java.sql.Types;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -44,6 +46,8 @@ public class RegisterForm extends javax.swing.JFrame {
         ButtonGroup btnGroup = new ButtonGroup();
         btnGroup.add(radioBtnMale);
         btnGroup.add(radioBtnFemale);
+        radioBtnMale.setSelected(true);
+        loadImage();
     }
 
     /**
@@ -55,7 +59,6 @@ public class RegisterForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -65,7 +68,7 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnRegister = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        labelImage = new javax.swing.JLabel();
         fullNameField = new javax.swing.JTextField();
         usernameField = new javax.swing.JTextField();
         passwordField = new javax.swing.JPasswordField();
@@ -78,30 +81,28 @@ public class RegisterForm extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         radioBtnMale = new javax.swing.JRadioButton();
         radioBtnFemale = new javax.swing.JRadioButton();
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
+        emailField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel3.setBackground(new java.awt.Color(239, 202, 72));
+        jPanel3.setBackground(new java.awt.Color(189, 213, 234));
 
-        jPanel5.setBackground(new java.awt.Color(239, 202, 72));
+        jPanel5.setBackground(new java.awt.Color(189, 213, 234));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
         jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        lableHome1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lableHome1.setText("Trang chủ");
         lableHome1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lableHome1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lableHome1MouseClicked(evt);
+            }
+        });
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel7.setText("Về chúng tôi");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -110,6 +111,7 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel12.setText("Đăng nhập");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -127,16 +129,16 @@ public class RegisterForm extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lableHome1)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel7)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel12)
                 .addGap(30, 30, 30))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
@@ -148,13 +150,15 @@ public class RegisterForm extends javax.swing.JFrame {
         );
 
         jLabel1.setBackground(new java.awt.Color(241, 11, 11));
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(241, 11, 11));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("TỪ THIỆN");
         jLabel1.setMaximumSize(new java.awt.Dimension(60, 60));
         jLabel1.setPreferredSize(new java.awt.Dimension(60, 20));
 
         btnRegister.setBackground(new java.awt.Color(16, 169, 218));
+        btnRegister.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnRegister.setForeground(new java.awt.Color(255, 255, 255));
         btnRegister.setText("ĐĂNG KÝ");
         btnRegister.addActionListener(new java.awt.event.ActionListener() {
@@ -163,17 +167,21 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/imageRegister.png"))); // NOI18N
+        jPanel4.setBackground(new java.awt.Color(189, 213, 234));
+
+        labelImage.setBackground(new java.awt.Color(189, 213, 234));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(labelImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(labelImage, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         fullNameField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -197,14 +205,19 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Họ và tên:");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setText("Username:");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel5.setText("Password:");
 
-        jLabel6.setText("Avatar:");
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel6.setText("Ảnh đại diện:");
 
+        btnSelectImage.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnSelectImage.setText("Select image");
         btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,13 +225,24 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
-        jLabelImagePath.setText("image path");
+        jLabelImagePath.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabelImagePath.setText("C:/");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Giới tính:");
 
+        radioBtnMale.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radioBtnMale.setText("Nam");
+        radioBtnMale.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        radioBtnFemale.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radioBtnFemale.setText("Nữ");
+        radioBtnFemale.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        emailField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        emailField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel8.setText("Email:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -228,45 +252,43 @@ public class RegisterForm extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
                         .addComponent(btnSelectImage)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelImagePath, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelImagePath, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
+                        .addGap(6, 6, 6))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordField)
+                            .addComponent(usernameField)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(fullNameField))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(passwordField)
-                                    .addComponent(usernameField)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(radioBtnMale)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(radioBtnFemale)
-                                        .addGap(0, 0, Short.MAX_VALUE)))))))
+                                .addComponent(radioBtnMale, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20)
+                                .addComponent(radioBtnFemale, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(emailField)
+                            .addComponent(fullNameField))))
                 .addGap(30, 30, 30))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(btnRegister)
-                        .addGap(170, 170, 170))
+                        .addGap(176, 176, 176))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(177, 177, 177))))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(164, 164, 164))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,28 +302,33 @@ public class RegisterForm extends javax.swing.JFrame {
                         .addGap(13, 13, 13)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
-                            .addComponent(radioBtnMale)
-                            .addComponent(radioBtnFemale))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(radioBtnMale)
+                                .addComponent(radioBtnFemale)))
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(btnSelectImage)
                             .addComponent(jLabelImagePath))
-                        .addGap(18, 18, 18)
+                        .addGap(20, 20, 20)
                         .addComponent(btnRegister, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30))
+                        .addGap(0, 20, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -315,10 +342,7 @@ public class RegisterForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -327,6 +351,8 @@ public class RegisterForm extends javax.swing.JFrame {
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         String fname = fullNameField.getText();
         String uname = usernameField.getText();
+        String email = emailField.getText();
+        
         String passwd = String.valueOf(passwordField.getPassword());
         int gender = 1;
         
@@ -334,30 +360,31 @@ public class RegisterForm extends javax.swing.JFrame {
             gender = 0;
         }
         if(verifyFields()) { 
-            if(!checkUsername(uname)) { 
+            if(!checkUsername(uname) && !checkEmail(email)) { 
                 PreparedStatement ps;
                 ResultSet rs;
                 
-                String registerUserQuery = "insert into users (full_name, username, password, gender,is_admin, status, avatar) values (?, ?, ?, ?, ?, ?, ?)";
+                String registerUserQuery = "insert into users (full_name, username, email, password, gender, is_admin, status, avatar) values (?, ?, ?, ?, ?, ?, ?, ?)";
                 
                 try {
                     ps = MyConnection.getConnection().prepareStatement(registerUserQuery);
                     
                     ps.setString(1, fname);
-                    ps.setString(2, uname);                    
-                    ps.setString(3, passwd);                    
-                    ps.setInt(4, gender);
-                    ps.setInt(5, 0);
-                    ps.setInt(6, 1);
+                    ps.setString(2, uname); 
+                    ps.setString(3, email);
+                    ps.setString(4, passwd);                    
+                    ps.setInt(5, gender);
+                    ps.setInt(6, 0);
+                    ps.setInt(7, 1);
                    
 
                     try {
                         // Save image
                         if(imagePath != null) { 
                             InputStream image = new FileInputStream(new File(imagePath));
-                            ps.setBlob(7, image);
+                            ps.setBlob(8, image);
                         } else { 
-                            ps.setNull(7, Types.NULL);
+                            ps.setNull(8, Types.NULL);
                         }
                             
                         if(ps.executeUpdate() != 0) {
@@ -441,12 +468,23 @@ public class RegisterForm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    private void lableHome1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lableHome1MouseClicked
+        Home home = new Home();
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_lableHome1MouseClicked
+
     public boolean verifyFields() { 
         String fname = fullNameField.getText();
         String uname = usernameField.getText();
         String passwd = String.valueOf(passwordField.getPassword());
+        String email = emailField.getText();
         
-        if(fname.trim().equals("") || uname.trim().equals("") || passwd.trim().equals("")) {
+        
+        if(fname.trim().equals("") || uname.trim().equals("") || passwd.trim().equals("") || email.trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Có một hay nhiều trường chưa điền", "Empty Fields",2);
             return false;
         }
@@ -468,16 +506,47 @@ public class RegisterForm extends javax.swing.JFrame {
             
             if(rs.next()) { 
                 usernameExist = true;
-                JOptionPane.showMessageDialog(null, "Tên đăng nhập đã được sử dụng| Hãy chọn một tên đăng nhập khác", "Username failed", 2);
+                JOptionPane.showMessageDialog(null, "Tên đăng nhập đã được sử dụng| Hãy chọn một tên đăng nhập khác", "Username has been exist", 2);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         return usernameExist;
     }
+    public boolean checkEmail(String email) {
+        PreparedStatement st;
+        ResultSet rs;
+        boolean  emailExist = false;
+        
+        String query = "select * from users where email = ?";
+        
+        try {
+            st = MyConnection.getConnection().prepareStatement(query);
+            st.setString(1, email);
+            rs = st.executeQuery();
+            
+            if(rs.next()) { 
+                emailExist = true;
+                JOptionPane.showMessageDialog(null, "Email đã được sử dụng| Hãy chọn một email khác", "Email has been exist", 2);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return emailExist;
+    }
     /**
      * @param args the command line arguments
      */
+    public void loadImage() { 
+        File imagePost = new File(System.getProperty("user.dir") + "/src/images/image-register.jpg");
+        String path = imagePost.getAbsolutePath();
+        ImageIcon myImage = new ImageIcon(path);
+        
+        Image image = myImage.getImage();
+        Image newImage = image.getScaledInstance(labelImage.getWidth(), labelImage.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(newImage);
+        labelImage.setIcon(imageIcon);
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -516,6 +585,7 @@ public class RegisterForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegister;
     private javax.swing.JButton btnSelectImage;
+    private javax.swing.JTextField emailField;
     private javax.swing.JTextField fullNameField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
@@ -528,10 +598,10 @@ public class RegisterForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabelImagePath;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel labelImage;
     private javax.swing.JLabel lableHome1;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JRadioButton radioBtnFemale;

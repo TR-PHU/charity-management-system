@@ -145,20 +145,30 @@ public class CreatePost extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
 
-        jPanel1.setBackground(new java.awt.Color(239, 202, 72));
+        jPanel1.setBackground(new java.awt.Color(189, 213, 234));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
         jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Về chúng tôi");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Trang chủ");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
+        comboBoxDirection.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem thông tin tài khoản", "Quản lý hoạt động của bạn", "Đăng xuất" }));
         comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,9 +185,9 @@ public class CreatePost extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -193,26 +203,34 @@ public class CreatePost extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelMain.setBackground(new java.awt.Color(239, 202, 72));
+        panelMain.setBackground(new java.awt.Color(189, 213, 234));
 
         lableImage.setText("jLabel4");
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 1, 13)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(241, 11, 11));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("ĐĂNG BÀI");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel5.setText("Tựa bài:");
 
+        titleField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         titleField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel6.setText("Chuyên mục:");
 
+        radioBtnDonation.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radioBtnDonation.setText("Kêu gọi từ thiện");
 
+        radioBtnVolunteer.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         radioBtnVolunteer.setText("Tình nguyện viên");
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel7.setText("Hình ảnh:");
 
+        btnSelectImage.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnSelectImage.setText("Choose image");
         btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,8 +238,10 @@ public class CreatePost extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel8.setText("Số lượng cần huy động:");
 
+        raiseField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         raiseField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         raiseField.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -229,14 +249,18 @@ public class CreatePost extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel9.setText("Mô tả chung:");
 
         descriptionText.setColumns(20);
+        descriptionText.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         descriptionText.setRows(5);
         jScrollPane1.setViewportView(descriptionText);
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel10.setText("Các cột mốc thời gian:");
 
+        tableTimeLine.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tableTimeLine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -267,7 +291,7 @@ public class CreatePost extends javax.swing.JFrame {
         }
 
         jButton1.setBackground(new java.awt.Color(235, 35, 35));
-        jButton1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ĐĂNG BÀI");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -276,6 +300,7 @@ public class CreatePost extends javax.swing.JFrame {
             }
         });
 
+        btnAddTimeLine.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnAddTimeLine.setText("Thêm mốc thời gian");
         btnAddTimeLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +308,7 @@ public class CreatePost extends javax.swing.JFrame {
             }
         });
 
+        lableImagePath.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lableImagePath.setText("Chưa chọn ảnh");
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
@@ -372,7 +398,7 @@ public class CreatePost extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(btnAddTimeLine)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(jButton1)))
                 .addGap(30, 30, 30))
         );
@@ -397,12 +423,12 @@ public class CreatePost extends javax.swing.JFrame {
     public void loadInfoUser(int userId) { 
         PreparedStatement st;
         ResultSet rs;
-        String query = "select * from users where id=?";
+        String query = "select id, full_name, username, email, gender, is_admin, avatar, status from users where id=?";
         
         try {
             st = MyConnection.getConnection().prepareStatement(query);
             if(userId != 0) { 
-                st.setString(1, String.valueOf(userId));
+                st.setInt(1, userId);
             }
             rs = st.executeQuery();
             
@@ -606,6 +632,15 @@ public class CreatePost extends javax.swing.JFrame {
         aboutForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+            Home home = new Home(user.getId());
+            home.setVisible(true);
+            home.setLocationRelativeTo(null);
+            home.pack();
+            home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
