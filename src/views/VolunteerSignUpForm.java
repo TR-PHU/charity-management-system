@@ -26,8 +26,8 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
      * Creates new form project_tu_thien
      */
 
-    private static int postId = 3;
-    private static int userId = 4;
+    private static int postId;
+    private static int userId;
     public VolunteerSignUpForm(int postId, int userId) {
         this.postId = postId;
         this.userId = userId;
@@ -38,10 +38,10 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setTitle("Đăng ký tình nguyện");
         
-        loadFullNameUser();
+        loadInfoUser();
         loadImageLabel();
         //Them mau nen
-        getContentPane().setBackground(new java.awt.Color(239,202,72));
+        getContentPane().setBackground(new java.awt.Color(189,213,234));
         setVisible(true);
     }
     
@@ -55,15 +55,13 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField3 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         hoten = new javax.swing.JLabel();
         email = new javax.swing.JLabel();
-        note = new javax.swing.JLabel();
         phonenumber = new javax.swing.JLabel();
         fullNameField = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
+        emailField = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         lableImage = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -93,9 +91,6 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
         email.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         email.setText("Email:");
 
-        note.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        note.setText("Ghi chú:");
-
         phonenumber.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         phonenumber.setText("Số điện thoại:");
 
@@ -105,9 +100,9 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        emailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                emailFieldActionPerformed(evt);
             }
         });
 
@@ -115,6 +110,11 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Trang chủ");
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setText("Về chúng tôi");
@@ -135,9 +135,9 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -146,8 +146,7 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(Taikhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(lableImage, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lableImage, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,21 +157,17 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(email)
                                     .addGap(72, 72, 72)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(phonenumber, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(6, 6, 6)
-                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(note, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(43, 43, 43)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(12, 12, 12))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jButton1)
-                                .addGap(67, 67, 67)))))
+                                .addGap(69, 69, 69)))))
                 .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
@@ -199,19 +194,13 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(4, 4, 4)
                                 .addComponent(email))
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(5, 5, 5)
                                 .addComponent(phonenumber))
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addComponent(note))
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jButton1))
                     .addComponent(lableImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -222,23 +211,44 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-            
-        String query = "insert into user_ref_posts (user_id, post_id, has_evaluated) VALUES (?, ?, '0')";
-        PreparedStatement ps;
-        String queryUpdateNumberOfVolunteer = "update posts set raise_people = raise_people + 1 where id = " + postId;
-        Statement st;
+
+        String queryCheckVolunteerSignUp = "select raise_people, goal_people from posts where id = " + postId;
+        Statement statementCheckVolunteer;
+        ResultSet rsCheckVolunteer;
         
         try {
-            ps = MyConnection.getConnection().prepareStatement(query);
-            ps.setInt(1, userId);
-            ps.setInt(2, postId);
+            statementCheckVolunteer = MyConnection.getConnection().createStatement();
+            rsCheckVolunteer = statementCheckVolunteer.executeQuery(queryCheckVolunteerSignUp);
             
-            st = MyConnection.getConnection().createStatement();
-            int result = st.executeUpdate(queryUpdateNumberOfVolunteer);
-            if(ps.executeUpdate() != 0 && result == 1) { 
-                JOptionPane.showMessageDialog(null, "Đăng ký thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            } else { 
-                JOptionPane.showMessageDialog(null, "Đăng ký không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            rsCheckVolunteer.next();
+            
+            if (rsCheckVolunteer.getInt(1) + 1 <= rsCheckVolunteer.getInt(2)) {
+                String query = "insert into user_ref_posts (user_id, post_id, has_evaluated) VALUES (?, ?, '0')";
+                PreparedStatement ps;
+
+                String queryUpdateNumberOfVolunteer = "update posts set raise_people = raise_people + 1 where id = " + postId;
+                Statement st;
+
+
+                try {
+                    ps = MyConnection.getConnection().prepareStatement(query);
+                    ps.setInt(1, userId);
+                    ps.setInt(2, postId);
+
+                    st = MyConnection.getConnection().createStatement();
+                    int result = st.executeUpdate(queryUpdateNumberOfVolunteer);
+                    if(ps.executeUpdate() != 0 && result == 1) { 
+                        JOptionPane.showMessageDialog(null, "Đăng ký thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Đăng ký không thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(VolunteerSignUpForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else if(rsCheckVolunteer.getInt(1) == rsCheckVolunteer.getInt(2)) { 
+                JOptionPane.showMessageDialog(null, "Sự kiện này đã đủ số người huy động", "Full People", 2);
+            }else { 
+                JOptionPane.showMessageDialog(null, "Sự kiện đã đủ số người huy động", "Full People", 2);
             }
         } catch (SQLException ex) {
             Logger.getLogger(VolunteerSignUpForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -249,9 +259,9 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_fullNameFieldActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_emailFieldActionPerformed
 
     private void TaikhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TaikhoanActionPerformed
         int index = Taikhoan.getSelectedIndex();
@@ -277,11 +287,20 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_TaikhoanActionPerformed
 
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        Home home = new Home(userId);
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public void loadFullNameUser() { 
-        String query = "select full_name from users where id = " + userId;
+    public void loadInfoUser() { 
+        String query = "select full_name,email from users where id = " + userId;
         Statement st;
         ResultSet rs;
         
@@ -292,6 +311,7 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
 
             if(rs.next()) {
                fullNameField.setText(rs.getString(1));
+               emailField.setText(rs.getString(2));
             } else {
                 JOptionPane.showMessageDialog(null, "Hãy đăng nhập để thực hiện quyên góp", "Login first", 2);
             }
@@ -376,6 +396,7 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> Taikhoan;
     private javax.swing.JLabel email;
+    private javax.swing.JTextField emailField;
     private javax.swing.JTextField fullNameField;
     private javax.swing.JLabel hoten;
     private javax.swing.JButton jButton1;
@@ -383,11 +404,8 @@ public class VolunteerSignUpForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lableImage;
-    private javax.swing.JLabel note;
     private javax.swing.JLabel phonenumber;
     // End of variables declaration//GEN-END:variables
 }

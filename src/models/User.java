@@ -10,16 +10,16 @@ import java.sql.Blob;
 
 public class User {
     private int id, gender,status;
-    private String fullName, username, password,isAdmin;
+    private String fullName, username, email,isAdmin;
     private Blob avatar;
 
-    public User(int id, String fullName, String username, String password, int gender, String isAdmin, Blob avatar,int status) {
+    public User(int id, String fullName, String username, String email, int gender, String isAdmin, Blob avatar,int status) {
         this.id = id;
         this.gender = gender;
         this.status = status;
         this.fullName = fullName;
         this.username = username;
-        this.password = password;
+        this.email = email;
         this.isAdmin = isAdmin;
         this.avatar = avatar;
     }
@@ -64,14 +64,15 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
+    
     public String getIsAdmin() {
         return isAdmin;
     }
@@ -90,6 +91,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "user{" + "id=" + id + ", gender=" + gender + ", status=" + status + ", fullName=" + fullName + ", username=" + username + ", password=" + password + ", isAdmin=" + isAdmin + ", avatar=" + avatar + '}';
+        return "User{" + "id=" + id + ", gender=" + gender + ", status=" + status + ", fullName=" + fullName + ", username=" + username + ", email=" + email + ", isAdmin=" + isAdmin + ", avatar=" + avatar + '}';
     }
+
+    
 }

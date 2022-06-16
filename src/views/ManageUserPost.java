@@ -105,35 +105,56 @@ public class ManageUserPost extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelHeader.setBackground(new java.awt.Color(239, 202, 72));
+        panelHeader.setBackground(new java.awt.Color(189, 213, 234));
 
+        labelLogo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         labelLogo.setText("jLabel1");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel1.setText("Về chúng tôi");
+        jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Trang chủ");
+        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
-        panelMain.setBackground(new java.awt.Color(239, 202, 72));
+        panelMain.setBackground(new java.awt.Color(189, 213, 234));
 
         jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 13)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(241, 11, 11));
         jLabel3.setText("Danh sách các hoạt động kêu gọi từ thiện");
 
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel4.setText("Tên dự án:");
 
+        comboBoxTitleDonation.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboBoxTitleDonation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxTitleDonationActionPerformed(evt);
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel5.setText("Số tiền huy động:");
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel6.setText("Số tiền đã quyên góp:");
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel7.setText("Số người đã quyên góp:");
 
+        tableDonation.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tableDonation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -163,11 +184,16 @@ public class ManageUserPost extends javax.swing.JFrame {
             tableDonation.getColumnModel().getColumn(1).setResizable(false);
         }
 
-        jLabel8.setFont(new java.awt.Font("SansSerif", 1, 13)); // NOI18N
+        goalDonationField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        raiseDonationField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(241, 11, 11));
         jLabel8.setText("Danh sách các hoạt động tình nguyện viên");
 
         btnDeleteDonationPost.setBackground(new java.awt.Color(255, 0, 0));
+        btnDeleteDonationPost.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnDeleteDonationPost.setForeground(new java.awt.Color(255, 255, 255));
         btnDeleteDonationPost.setText("X");
         btnDeleteDonationPost.addActionListener(new java.awt.event.ActionListener() {
@@ -176,8 +202,10 @@ public class ManageUserPost extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel9.setText("Tên dự án:");
 
+        comboBoxTitleVolunteer.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboBoxTitleVolunteer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxTitleVolunteerActionPerformed(evt);
@@ -185,6 +213,7 @@ public class ManageUserPost extends javax.swing.JFrame {
         });
 
         btnDeletePostVolunteer.setBackground(new java.awt.Color(255, 0, 0));
+        btnDeletePostVolunteer.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnDeletePostVolunteer.setForeground(new java.awt.Color(255, 255, 255));
         btnDeletePostVolunteer.setText("X");
         btnDeletePostVolunteer.addActionListener(new java.awt.event.ActionListener() {
@@ -193,10 +222,17 @@ public class ManageUserPost extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel10.setText("Số người huy động:");
 
+        goalPeopleField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel11.setText("Số người đã đăng ký:");
 
+        raisePeopleField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        tablePeopleVolunteerSignUp.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tablePeopleVolunteerSignUp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -232,6 +268,7 @@ public class ManageUserPost extends javax.swing.JFrame {
             tablePeopleVolunteerSignUp.getColumnModel().getColumn(2).setResizable(false);
         }
 
+        tableTimeLine.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tableTimeLine.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -279,7 +316,7 @@ public class ManageUserPost extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMainLayout.createSequentialGroup()
                                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -353,7 +390,7 @@ public class ManageUserPost extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Xem tài khoản của bạn", "Đăng bài", "Đăng xuất" }));
@@ -372,9 +409,9 @@ public class ManageUserPost extends javax.swing.JFrame {
                 .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
             .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -382,16 +419,12 @@ public class ManageUserPost extends javax.swing.JFrame {
         panelHeaderLayout.setVerticalGroup(
             panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHeaderLayout.createSequentialGroup()
-                .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelHeaderLayout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelHeaderLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(12, 12, 12)
+                .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
                 .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -421,12 +454,12 @@ public class ManageUserPost extends javax.swing.JFrame {
         
         String itemSelected = (String) comboBoxTitleDonation.getSelectedItem();
         Donation donationSelected = findDonationSelected(listDonations, itemSelected);
-        
+
         goalDonationField.setText(formatter.format(donationSelected.getMoney()));
         
         PreparedStatement ps;
         ResultSet rs;
-        String query = "select goal_money, raise_money, full_name, donate_money " +
+        String query = "select post.goal_money, post.raise_money, user.full_name, urp.donate_money " +
                         "from posts as post " +
                         "inner join user_ref_posts as urp " +
                         "on post.id = urp.post_id " +
@@ -490,9 +523,9 @@ public class ManageUserPost extends javax.swing.JFrame {
         
         DefaultTableModel tableModelTimeLine = (DefaultTableModel) tableTimeLine.getModel();
         tableModelTimeLine.setRowCount(0);
-        
+                
         PostVolunteer postVolunteerSelected = findPostVolunteerSelected(listPostVolunteers, itemSelected);
-        
+        goalPeopleField.setText(formatter.format(postVolunteerSelected.getGoalPeople()));
         
         
         PreparedStatement ps;
@@ -550,12 +583,24 @@ public class ManageUserPost extends javax.swing.JFrame {
     }//GEN-LAST:event_comboBoxTitleVolunteerActionPerformed
 
     private void tablePeopleVolunteerSignUpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePeopleVolunteerSignUpMouseClicked
+        String itemSelected = (String) comboBoxTitleVolunteer.getSelectedItem();
+        
+        PostVolunteer postVolunteerSelected = findPostVolunteerSelected(listPostVolunteers, itemSelected);
+        
         JTable  source = (JTable)evt.getSource();
         int row = source.rowAtPoint( evt.getPoint() );
         int column = source.columnAtPoint(evt.getPoint());
         
-        String userId = source.getModel().getValueAt(row, 0) + "";
-        System.out.println(userId);
+        String volunteerId = source.getModel().getValueAt(row, 0) + "";
+        
+        if(column == 2) { 
+            EvaluateVolunteerForm evaluateVolunteerForm = new EvaluateVolunteerForm(user.getId(), Integer.parseInt(volunteerId), postVolunteerSelected.getId());
+            evaluateVolunteerForm.setVisible(true);
+            evaluateVolunteerForm.setLocationRelativeTo(null);
+            evaluateVolunteerForm.pack();
+            evaluateVolunteerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        }
     }//GEN-LAST:event_tablePeopleVolunteerSignUpMouseClicked
 
     private void tableTimeLineMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableTimeLineMouseClicked
@@ -572,27 +617,50 @@ public class ManageUserPost extends javax.swing.JFrame {
             option = JOptionPane.showOptionDialog(new JFrame(), "Sự kiện này đã hoàn thành ?", 
                 "Chỉnh sửa sự kiện", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
                 null, new Object[] {"Đã hoàn thành", "Chưa hoàn thành"}, JOptionPane.YES_OPTION);
-        }
-        
-        if (option == JOptionPane.YES_OPTION) {
-            PreparedStatement ps;
-            String queryUpdateDoneTimeLine = "update time_lines set has_done = 1 where id = ?";
-            try {
-                ps = MyConnection.getConnection().prepareStatement(queryUpdateDoneTimeLine);
-                ps.setInt(1, Integer.parseInt(timeLineId));
-                
-                if(ps.executeUpdate() != 0 ) { 
-                    JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thành công", "Update time line sucess", 2);
-                    DefaultTableModel tableModelTimeLine = (DefaultTableModel) tableTimeLine.getModel();
-                    tableModelTimeLine.setValueAt(true, row, 3);
-                } else { 
-                    JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thất bại", "Update time line failed", 2);
+            if (option == JOptionPane.YES_OPTION) {
+                PreparedStatement ps;
+                String queryUpdateDoneTimeLine = "update time_lines set has_done = 1 where id = ?";
+                try {
+                    ps = MyConnection.getConnection().prepareStatement(queryUpdateDoneTimeLine);
+                    ps.setInt(1, Integer.parseInt(timeLineId));
+
+                    if(ps.executeUpdate() != 0 ) { 
+                        JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thành công", "Update time line sucess", 2);
+                        DefaultTableModel tableModelTimeLine = (DefaultTableModel) tableTimeLine.getModel();
+                        tableModelTimeLine.setValueAt(true, row, 3);
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thất bại", "Update time line failed", 2);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManageUserPost.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(ManageUserPost.class.getName()).log(Level.SEVERE, null, ex);
+
             }
-            
-        } 
+        } else if (column == 3 && hasDone.equals("true")) { 
+                option = JOptionPane.showOptionDialog(new JFrame(), "Sự kiện này chưa hoàn thành ?", 
+                "Chỉnh sửa sự kiện", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, 
+                null, new Object[] {"Chưa hoàn thành", "Đã hoàn thành"}, JOptionPane.YES_OPTION);
+            if (option == JOptionPane.YES_OPTION) {
+                PreparedStatement ps;
+                String queryUpdateDoneTimeLine = "update time_lines set has_done = 0 where id = ?";
+                try {
+                    ps = MyConnection.getConnection().prepareStatement(queryUpdateDoneTimeLine);
+                    ps.setInt(1, Integer.parseInt(timeLineId));
+
+                    if(ps.executeUpdate() != 0 ) { 
+                        JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thành công", "Update time line sucess", 2);
+                        DefaultTableModel tableModelTimeLine = (DefaultTableModel) tableTimeLine.getModel();
+                        tableModelTimeLine.setValueAt(false, row, 3);
+                    } else { 
+                        JOptionPane.showMessageDialog(null, "Chỉnh sửa thời gian sự kiện thất bại", "Update time line failed", 2);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(ManageUserPost.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+         
         return;
     }//GEN-LAST:event_tableTimeLineMouseClicked
 
@@ -642,6 +710,24 @@ public class ManageUserPost extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        AboutForm aboutForm = new AboutForm(user.getId());
+        aboutForm.setVisible(true);
+        aboutForm.setLocationRelativeTo(null);
+        aboutForm.pack();
+        aboutForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        Home home = new Home(user.getId());
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -695,7 +781,7 @@ public class ManageUserPost extends javax.swing.JFrame {
     public void loadInfoUser(int userId) { 
         PreparedStatement st;
         ResultSet rs;
-        String query = "select * from users where id=?";
+        String query = "select id, full_name, username, email, gender, is_admin, avatar, status from users where id = ?";
         
         try {
             st = MyConnection.getConnection().prepareStatement(query);
@@ -706,7 +792,6 @@ public class ManageUserPost extends javax.swing.JFrame {
             
             if(rs.next()) { 
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getBlob(7), rs.getInt(8));
-                System.out.println(user.toString());
             } else { 
                 LoginForm loginForm = new LoginForm();
                 loginForm.setVisible(true);
@@ -774,7 +859,7 @@ public class ManageUserPost extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManageUserPost(1).setVisible(true);
+                new ManageUserPost(user.getId()).setVisible(true);
             }
         });
     }

@@ -59,6 +59,7 @@ public class ProfileForm extends javax.swing.JFrame {
         this.setTitle("Profile");
         btnSaveFullName.setVisible(false);
         btnSaveUsername.setVisible(false);
+        btnSaveEmail.setVisible(false);
         
         loadInfoUser();
         loadTableDonations();
@@ -99,25 +100,34 @@ public class ProfileForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         moneyDonation = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tableActivity = new javax.swing.JTable();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableDonation = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
         comboxTitle = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        btnSaveEmail = new javax.swing.JButton();
+        emailField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableActivity = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelHeader.setBackground(new java.awt.Color(239, 202, 72));
+        panelHeader.setBackground(new java.awt.Color(189, 213, 234));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
         jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        lableHome1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lableHome1.setText("Trang chủ");
         lableHome1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lableHome1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lableHome1MouseClicked(evt);
+            }
+        });
 
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel7.setText("Về chúng tôi");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -126,6 +136,7 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
+        comboBoxDirection.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
         comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,9 +153,9 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lableHome1)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel7)
-                .addGap(18, 18, 18)
+                .addGap(20, 20, 20)
                 .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(80, 80, 80))
         );
@@ -162,7 +173,7 @@ public class ProfileForm extends javax.swing.JFrame {
                         .addGap(16, 16, 16))))
         );
 
-        panelMain.setBackground(new java.awt.Color(239, 202, 72));
+        panelMain.setBackground(new java.awt.Color(189, 213, 234));
 
         imageLabel.setText("image");
         imageLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -172,11 +183,14 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel1.setText("Họ và tên:");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Tên đăng nhập:");
 
-        usernameField.setBackground(new java.awt.Color(239, 202, 72));
+        usernameField.setBackground(new java.awt.Color(189, 213, 234));
+        usernameField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         usernameField.setText("Tên đăng nhập user");
         usernameField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         usernameField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -194,7 +208,8 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
-        fullNameField.setBackground(new java.awt.Color(239, 202, 72));
+        fullNameField.setBackground(new java.awt.Color(189, 213, 234));
+        fullNameField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         fullNameField.setText("Họ và tên user");
         fullNameField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         fullNameField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -218,6 +233,7 @@ public class ProfileForm extends javax.swing.JFrame {
         });
 
         btnSaveFullName.setBackground(new java.awt.Color(16, 169, 218));
+        btnSaveFullName.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnSaveFullName.setForeground(new java.awt.Color(255, 255, 255));
         btnSaveFullName.setText("Save");
         btnSaveFullName.addActionListener(new java.awt.event.ActionListener() {
@@ -227,6 +243,7 @@ public class ProfileForm extends javax.swing.JFrame {
         });
 
         btnSaveUsername.setBackground(new java.awt.Color(16, 169, 218));
+        btnSaveUsername.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         btnSaveUsername.setForeground(new java.awt.Color(255, 255, 255));
         btnSaveUsername.setText("Save");
         btnSaveUsername.addActionListener(new java.awt.event.ActionListener() {
@@ -235,15 +252,17 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
-        panelChangePasswd.setBackground(new java.awt.Color(239, 202, 72));
+        panelChangePasswd.setBackground(new java.awt.Color(189, 213, 234));
         panelChangePasswd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel4.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(17, 205, 36));
         jLabel4.setText("Đổi mật khẩu");
 
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel5.setText("Mẫu khẩu cũ:");
 
+        oldPasswdField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         oldPasswdField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         oldPasswdField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -251,8 +270,10 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel6.setText("Mật khẩu mới");
 
+        newPasswdField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         newPasswdField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         newPasswdField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -265,11 +286,14 @@ public class ProfileForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel9.setText("Xác nhận mật khẩu:");
 
+        retypePasswdField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         retypePasswdField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jButton1.setBackground(new java.awt.Color(235, 35, 35));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ĐỔI MẬT KHẨU");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -285,7 +309,7 @@ public class ProfileForm extends javax.swing.JFrame {
             .addGroup(panelChangePasswdLayout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(21, 21, 21)
@@ -294,7 +318,7 @@ public class ProfileForm extends javax.swing.JFrame {
                     .addGroup(panelChangePasswdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(newPasswdField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
                         .addComponent(retypePasswdField, javax.swing.GroupLayout.Alignment.TRAILING)))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelChangePasswdLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -326,56 +350,23 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(241, 11, 11));
         jLabel3.setText("Tài khoản");
 
-        jLabel12.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(17, 205, 36));
         jLabel12.setText("Tổng tiền đã quyên góp:");
 
+        moneyDonation.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         moneyDonation.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         moneyDonation.setText("0");
         moneyDonation.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
-        jTabbedPane1.setForeground(new java.awt.Color(241, 11, 11));
-        jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Thời gian", "Mô tả", "Hoàn thành"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tableActivity);
-        if (tableActivity.getColumnModel().getColumnCount() > 0) {
-            tableActivity.getColumnModel().getColumn(0).setResizable(false);
-            tableActivity.getColumnModel().getColumn(1).setResizable(false);
-            tableActivity.getColumnModel().getColumn(2).setResizable(false);
-        }
-
-        jTabbedPane1.addTab("Danh sách hoạt động tình nguyên đã tham gia", jScrollPane1);
-
         jTabbedPane2.setForeground(new java.awt.Color(241, 11, 11));
 
         tableDonation.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tableDonation.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         tableDonation.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -407,13 +398,76 @@ public class ProfileForm extends javax.swing.JFrame {
 
         jTabbedPane2.addTab("Số tiền quyên góp ", jScrollPane2);
 
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel15.setText("Tên dự án:");
 
+        comboxTitle.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         comboxTitle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboxTitleActionPerformed(evt);
             }
         });
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel8.setText("Email:");
+
+        btnSaveEmail.setBackground(new java.awt.Color(16, 169, 218));
+        btnSaveEmail.setForeground(new java.awt.Color(255, 255, 255));
+        btnSaveEmail.setText("Save");
+        btnSaveEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveEmailActionPerformed(evt);
+            }
+        });
+
+        emailField.setBackground(new java.awt.Color(189, 213, 234));
+        emailField.setText("Email user");
+        emailField.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        emailField.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        emailField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                emailFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                emailFieldFocusLost(evt);
+            }
+        });
+        emailField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emailFieldMouseClicked(evt);
+            }
+        });
+
+        tableActivity.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tableActivity.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Thời gian", "Mô tả", "Hoàn thành"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableActivity);
+        if (tableActivity.getColumnModel().getColumnCount() > 0) {
+            tableActivity.getColumnModel().getColumn(0).setResizable(false);
+            tableActivity.getColumnModel().getColumn(1).setResizable(false);
+            tableActivity.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
         panelMain.setLayout(panelMainLayout);
@@ -424,14 +478,15 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(panelChangePasswd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
-                                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(20, 20, 20)
-                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(12, 12, 12)
                                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelMainLayout.createSequentialGroup()
@@ -441,7 +496,11 @@ public class ProfileForm extends javax.swing.JFrame {
                                     .addGroup(panelMainLayout.createSequentialGroup()
                                         .addComponent(fullNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnSaveFullName))))
+                                        .addComponent(btnSaveFullName))
+                                    .addGroup(panelMainLayout.createSequentialGroup()
+                                        .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnSaveEmail))))
                             .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelMainLayout.createSequentialGroup()
                                 .addComponent(jLabel12)
@@ -449,20 +508,20 @@ public class ProfileForm extends javax.swing.JFrame {
                                 .addComponent(moneyDonation, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(80, 80, 80))
                     .addGroup(panelMainLayout.createSequentialGroup()
-                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelMainLayout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboxTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(comboxTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 470, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3)
+                            .addComponent(jScrollPane1))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelMainLayout.setVerticalGroup(
             panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMainLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelMainLayout.createSequentialGroup()
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
@@ -472,7 +531,13 @@ public class ProfileForm extends javax.swing.JFrame {
                         .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSaveUsername))))
+                            .addComponent(btnSaveUsername))
+                        .addGap(12, 12, 12)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(btnSaveEmail)
+                            .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(imageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -481,15 +546,16 @@ public class ProfileForm extends javax.swing.JFrame {
                 .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel12)
-                    .addComponent(moneyDonation))
-                .addGap(12, 12, 12)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(comboxTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                    .addComponent(moneyDonation)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addComponent(jLabel12)
+                        .addGap(12, 12, 12)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(comboxTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -504,7 +570,8 @@ public class ProfileForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -513,10 +580,10 @@ public class ProfileForm extends javax.swing.JFrame {
     public void loadInfoUser() { 
         PreparedStatement st;
         ResultSet rs;
-        String query = "select * from users where id=?";
+        String query = "select id, full_name, username, email, gender, is_admin, avatar, status from users where id=?";
         
         if(userId == 0) { 
-            query = "select * from users where username=?";
+            query = "select id, full_name, username, email, gender, is_admin, avatar, status from users where username = ?";
         }
         
         try {
@@ -541,6 +608,8 @@ public class ProfileForm extends javax.swing.JFrame {
                 user = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getString(6), rs.getBlob(7), rs.getInt(8));
                 fullNameField.setText(user.getFullName());
                 usernameField.setText(user.getUsername());
+                emailField.setText(user.getEmail());
+                
                 Image image = myImage.getImage();
                 Image newImage = image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(), Image.SCALE_SMOOTH);
                 ImageIcon imageIcon = new ImageIcon(newImage);
@@ -623,7 +692,29 @@ public class ProfileForm extends javax.swing.JFrame {
         }
        
     }
-    
+    public boolean checkEmail(String email,String oldEmail) { 
+        PreparedStatement st;
+        ResultSet rs;
+        boolean  emailExist = false;
+        
+        String query = "select * from users where email = ?";
+        
+        try {
+            st = MyConnection.getConnection().prepareStatement(query);
+            st.setString(1, email);
+            rs = st.executeQuery();
+            
+            if(rs.next() && !oldEmail.equals(rs.getString(3))) {
+                emailExist = true;
+                JOptionPane.showMessageDialog(null, "Email đã được sử dụng. Hãy chọn một email khác", "Email exist", 2);
+                emailField.setText(oldEmail);
+                btnSaveEmail.setVisible(false);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return emailExist;
+    }
     public boolean checkUsername(String username,String oldUserName) {
         PreparedStatement st;
         ResultSet rs;
@@ -636,9 +727,9 @@ public class ProfileForm extends javax.swing.JFrame {
             st.setString(1, username);
             rs = st.executeQuery();
             
-            if(rs.next() && !oldUserName.trim().equals(rs.getString(3))) {
+            if(rs.next() && !oldUserName.equals(rs.getString(3))) {
                 usernameExist = true;
-                JOptionPane.showMessageDialog(null, "Tên đăng nhập đã được sử dụng. Hãy chọn một tên đăng nhập khác", "Username failed", 2);
+                JOptionPane.showMessageDialog(null, "Tên đăng nhập đã được sử dụng. Hãy chọn một tên đăng nhập khác", "Username exist", 2);
                 usernameField.setText(oldUserName);
                 btnSaveUsername.setVisible(false);
             }
@@ -649,7 +740,6 @@ public class ProfileForm extends javax.swing.JFrame {
     }
     private void btnSaveUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveUsernameActionPerformed
         String oldUserName = user.getUsername();
-        System.out.println(oldUserName);
         String username = usernameField.getText();
 
         if(username.trim().equals("")) {
@@ -664,13 +754,13 @@ public class ProfileForm extends javax.swing.JFrame {
                 try {
                     st = MyConnection.getConnection().prepareStatement(updateQuery);
                     st.setString(1, username);
-                    st.setString(2, String.valueOf(user.getId()));
+                    st.setInt(2, user.getId());
 
                     int result = st.executeUpdate();
                     if(result == 1) {
-                        JOptionPane.showMessageDialog(null, "Cập nhật tên đăng nhập thành công.", "Updated full name sucess", 2);
+                        JOptionPane.showMessageDialog(null, "Cập nhật tên đăng nhập thành công.", "Updated username sucess", 2);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Cập nhật tên đăng nhập không thành công", "Error: Update full name failed",2);
+                        JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Cập nhật tên đăng nhập không thành công", "Error: Update username failed",2);
                         usernameField.setText(oldUserName);
                     }
                     btnSaveUsername.setVisible(false);
@@ -812,7 +902,12 @@ public class ProfileForm extends javax.swing.JFrame {
     }//GEN-LAST:event_comboxTitleActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
+        AboutForm aboutForm = new AboutForm(user.getId());
+        aboutForm.setVisible(true);
+        aboutForm.setLocationRelativeTo(null);
+        aboutForm.pack();
+        aboutForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void imageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageLabelMouseClicked
@@ -896,6 +991,64 @@ public class ProfileForm extends javax.swing.JFrame {
         btnSaveUsername.setVisible(true);
         usernameField.setBackground(Color.WHITE);
     }//GEN-LAST:event_usernameFieldFocusGained
+
+    private void btnSaveEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEmailActionPerformed
+        String oldEmail = user.getEmail();
+        
+        String email = emailField.getText();
+
+        if(email.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Tên đăng nhập không được bỏ trống", "Invalid Username", 2);
+        }
+        else {
+            if(!checkEmail(email,oldEmail)) {
+                PreparedStatement st;
+
+                String updateQuery = "update users set email=? where id=?";
+
+                try {
+                    st = MyConnection.getConnection().prepareStatement(updateQuery);
+                    st.setString(1, email);
+                    st.setInt(2, user.getId());
+
+                    int result = st.executeUpdate();
+                    if(result == 1) {
+                        JOptionPane.showMessageDialog(null, "Cập nhật email thành công.", "Updated email sucess", 2);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Có lỗi xảy ra. Cập nhật email không thành công", "Error: Update email failed",2);
+                        usernameField.setText(oldEmail);
+                    }
+                    btnSaveEmail.setVisible(false);
+                } catch (SQLException ex) {
+                    Logger.getLogger(ProfileForm.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnSaveEmailActionPerformed
+
+    private void emailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusGained
+        btnSaveEmail.setVisible(true);
+        emailField.setBackground(Color.WHITE);
+    }//GEN-LAST:event_emailFieldFocusGained
+
+    private void emailFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusLost
+        emailField.setBackground(new Color(239,202,72));
+        btnSaveEmail.setVisible(false);
+    }//GEN-LAST:event_emailFieldFocusLost
+
+    private void emailFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emailFieldMouseClicked
+        btnSaveEmail.setVisible(true);
+        emailField.setBackground(Color.WHITE);
+    }//GEN-LAST:event_emailFieldMouseClicked
+
+    private void lableHome1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lableHome1MouseClicked
+        Home home = new Home(userId);
+        home.setVisible(true);
+        home.setLocationRelativeTo(null);
+        home.pack();
+        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_lableHome1MouseClicked
     public PostVolunteer findPostVolunteers(ArrayList<PostVolunteer> listVolunteer,String title) { 
         for (PostVolunteer postVolunteer : listVolunteer) {
             if(postVolunteer.getTitle().equals(title)) { 
@@ -919,14 +1072,13 @@ public class ProfileForm extends javax.swing.JFrame {
         PreparedStatement st;
         ResultSet rs;
         if(!oldPasswd.trim().equals("")) { 
-            String query = "select * from users where id = ?";
+            String query = "select password from users where id = ?";
 
             try {
                 st = MyConnection.getConnection().prepareStatement(query);
-                st.setString(1, String.valueOf(user.getId()));
+                st.setInt(1, user.getId());
                 rs = st.executeQuery();
-
-                if(rs.next() && oldPasswd.equals(rs.getString(4))) { 
+                if(rs.next() && oldPasswd.equals(rs.getString(1))) { 
                     return true;
                 } else {
                     return false;
@@ -980,10 +1132,12 @@ public class ProfileForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSaveEmail;
     private javax.swing.JButton btnSaveFullName;
     private javax.swing.JButton btnSaveUsername;
     private javax.swing.JComboBox<String> comboBoxDirection;
     private javax.swing.JComboBox<String> comboxTitle;
+    private javax.swing.JTextField emailField;
     private javax.swing.JTextField fullNameField;
     private javax.swing.JLabel imageLabel;
     private javax.swing.JButton jButton1;
@@ -997,10 +1151,10 @@ public class ProfileForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel lableHome1;
     private javax.swing.JLabel moneyDonation;
