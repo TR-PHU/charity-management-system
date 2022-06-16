@@ -5,6 +5,23 @@
  */
 package views;
 
+import connect_db.MyConnection;
+import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.sql.Blob;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import models.Post;
+import models.User;
+
 /**
  *
  * @author hp
@@ -14,8 +31,61 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
+    private static User user;
+    private static Post postAttention;
+    ArrayList<Post> postList = new ArrayList<>();
+    int postId = -1;
+    
     public Home() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setTitle("Trang chủ");
+        
+        loadPostAttention();
+    }
+    
+    private void loadPostAttention() {
+        PreparedStatement ps1, ps2;
+        ResultSet rs1, rs2;
+        String query1 = "SELECT post_id, COUNT(post_id) SL FROM `user_ref_posts` GROUP BY post_id ORDER BY SL DESC LIMIT 1";
+        String query2 = "SELECT * FROM `posts` WHERE id = ?";
+        try {
+            
+            
+            ps1 = MyConnection.getConnection().prepareStatement(query1);
+            rs1 = ps1.executeQuery();
+            if(rs1.next()) { 
+                postId = rs1.getInt(1);
+                System.out.println(postId);
+            }
+            
+            ps2 = MyConnection.getConnection().prepareStatement(query2);
+            ps2.setInt(1, postId);
+            rs2 = ps2.executeQuery();
+            if(rs2.next()) { 
+                postAttention = new Post(rs2.getInt(1), rs2.getString(2), rs2.getBlob(3), rs2.getDouble(4), rs2.getDouble(5), rs2.getInt(6), rs2.getInt(7), rs2.getString(8));
+                System.out.println(postAttention.toString());
+            }
+            
+            titleAttention.setText(postAttention.getTitle());
+            ImageIcon myImage = null;
+            if(postAttention.getImage() != null) { 
+                Blob imagePost = postAttention.getImage();
+                byte[] imageBytes = imagePost.getBytes(1, (int) imagePost.length());
+                myImage = new ImageIcon(imageBytes);
+            } else { 
+                File nullAvatar = new File(System.getProperty("user.dir") + "/src/images/image-post-null.jpg");
+                String path = nullAvatar.getAbsolutePath();
+                myImage = new ImageIcon(path);
+            }
+            imageAttention.setText("");
+            Image image = myImage.getImage();
+            Image newImage = image.getScaledInstance(imageAttention.getWidth(), imageAttention.getHeight(), Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(newImage);
+            imageAttention.setIcon(imageIcon);
+        } catch (SQLException ex) {
+            Logger.getLogger(DetailPostVolunteerForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -27,36 +97,255 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        panelHeader = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        lableHome1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        comboBoxDirection = new javax.swing.JComboBox<>();
+        panelMain = new javax.swing.JPanel();
+        imageAttention = new javax.swing.JLabel();
+        titleAttention = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        search = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(239, 202, 72));
+        panelHeader.setBackground(new java.awt.Color(189, 213, 234));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 736, Short.MAX_VALUE)
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo.jpg"))); // NOI18N
+        jLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        lableHome1.setText("Trang chủ");
+        lableHome1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel7.setText("Về chúng tôi");
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
+        comboBoxDirection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý hoạt động của bạn", "Đăng bài", "Đăng xuất" }));
+        comboBoxDirection.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxDirectionActionPerformed(evt);
+            }
+        });
+
+        panelMain.setBackground(new java.awt.Color(189, 213, 234));
+
+        imageAttention.setText("jLabel1");
+        imageAttention.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                imageAttentionMouseClicked(evt);
+            }
+        });
+
+        titleAttention.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        titleAttention.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleAttention.setText("jLabel1");
+        titleAttention.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        titleAttention.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                titleAttentionMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel1.setText("Hoạt động nổi bật");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel2.setText("Danh sách các hoạt động");
+
+        search.setForeground(new java.awt.Color(153, 153, 153));
+        search.setText("Tìm kiếm hoạt động");
+        search.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                searchFocusLost(evt);
+            }
+        });
+        search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchActionPerformed(evt);
+            }
+        });
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane1.setViewportView(jList1);
+
+        javax.swing.GroupLayout panelMainLayout = new javax.swing.GroupLayout(panelMain);
+        panelMain.setLayout(panelMainLayout);
+        panelMainLayout.setHorizontalGroup(
+            panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMainLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelMainLayout.createSequentialGroup()
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(imageAttention, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(titleAttention, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 457, Short.MAX_VALUE)
+        panelMainLayout.setVerticalGroup(
+            panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMainLayout.createSequentialGroup()
+                .addComponent(search, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMainLayout.createSequentialGroup()
+                        .addComponent(imageAttention, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(titleAttention, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelHeaderLayout = new javax.swing.GroupLayout(panelHeader);
+        panelHeader.setLayout(panelHeaderLayout);
+        panelHeaderLayout.setHorizontalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHeaderLayout.createSequentialGroup()
+                .addGap(80, 80, 80)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 210, Short.MAX_VALUE)
+                .addComponent(lableHome1)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel7)
+                .addGap(28, 28, 28)
+                .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
+            .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panelMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelHeaderLayout.setVerticalGroup(
+            panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHeaderLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelHeaderLayout.createSequentialGroup()
+                        .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lableHome1)
+                            .addComponent(jLabel7)
+                            .addComponent(comboBoxDirection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16))))
+            .addGroup(panelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelHeaderLayout.createSequentialGroup()
+                    .addGap(0, 81, Short.MAX_VALUE)
+                    .addComponent(panelMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void comboBoxDirectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxDirectionActionPerformed
+        int index = comboBoxDirection.getSelectedIndex();
+
+        if(index == 0) { 
+            ProfileForm profileForm = new ProfileForm(user.getId(), "");
+            profileForm.setVisible(true);
+            profileForm.pack();
+            profileForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 1) { 
+            ManageUserPost manageUserPost = new ManageUserPost(user.getId());
+            manageUserPost.setVisible(true);
+            manageUserPost.pack();
+            manageUserPost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else if (index == 2 ) { 
+            CreatePost createPostForm = new CreatePost(user.getId());
+            createPostForm.setVisible(true);
+            createPostForm.pack();
+            createPostForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+        } else { 
+            LoginForm loginForm = new LoginForm();
+            loginForm.setVisible(true);
+            loginForm.pack();
+            loginForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            this.dispose();
+    }//GEN-LAST:event_comboBoxDirectionActionPerformed
+
+    private void titleAttentionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_titleAttentionMouseClicked
+        // TODO add your handling code here:
+        System.out.println(postId);
+        System.out.println(user.getId());
+        DetailPostVolunteerForm detailPostVolunteerForm = new DetailPostVolunteerForm(postId, user.getId());
+        detailPostVolunteerForm.setVisible(true);
+        detailPostVolunteerForm.pack();
+        detailPostVolunteerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_titleAttentionMouseClicked
+
+    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchActionPerformed
+
+    private void searchFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFocusGained
+        // TODO add your handling code here:
+        if(search.getText().equals("Tìm kiếm hoạt động") == true ) {
+            search.setText("");
+            search.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_searchFocusGained
+
+    private void searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFocusLost
+        // TODO add your handling code here:
+        if(search.getText().equals("") || search.getText().equals("Tìm kiếm hoạt động")) { 
+            search.setText("Tìm kiếm hoạt động");
+            search.setForeground(new Color(153,153,153));
+        }
+    }//GEN-LAST:event_searchFocusLost
+
+    private void imageAttentionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imageAttentionMouseClicked
+        // TODO add your handling code here:
+        System.out.println(postId);
+        System.out.println(user.getId());
+        DetailPostVolunteerForm detailPostVolunteerForm = new DetailPostVolunteerForm(postId, user.getId());
+        detailPostVolunteerForm.setVisible(true);
+        detailPostVolunteerForm.pack();
+        detailPostVolunteerForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.dispose();
+    }//GEN-LAST:event_imageAttentionMouseClicked
 
     /**
      * @param args the command line arguments
@@ -94,6 +383,18 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> comboBoxDirection;
+    private javax.swing.JLabel imageAttention;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lableHome1;
+    private javax.swing.JPanel panelHeader;
+    private javax.swing.JPanel panelMain;
+    private javax.swing.JTextField search;
+    private javax.swing.JLabel titleAttention;
     // End of variables declaration//GEN-END:variables
 }
